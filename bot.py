@@ -22,7 +22,7 @@ async def on_member_join(member):
     bot.say('{} welcome {} to the server!'.format(member.roles[0].mention, member.mention))
 
 if __name__ == "__main__":
-    for extention in startup_extentions:
+    for extention in startup_extensions:
         try:
             bot.load_extension(extension)
         except Exception as e:
