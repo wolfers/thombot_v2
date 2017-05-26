@@ -5,7 +5,7 @@ description = """
     I am thom bot! I'm here to make things more dumb!!!
     """
 
-startup_extentions = [  "image_commands"]
+startup_extentions = ["cogs.image_commands"]
 
 bot = commands.Bot(command_prefix='!', description=description)
 
