@@ -1,5 +1,5 @@
 from discord.ext import commands
-import token
+from token import *
 
 description = """
     I am thom bot! I'm here to make things more dumb!!!
