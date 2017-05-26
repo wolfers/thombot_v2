@@ -1,5 +1,5 @@
 import discord
-from dsicord.ext import commands
+from discord.ext import commands
 
 class image_commands():
     def __init__(self, bot):

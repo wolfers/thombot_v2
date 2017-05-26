@@ -1,4 +1,4 @@
-from dsicord.ext import commands
+from discord.ext import commands
 import token
 
 description = """
