@@ -38,7 +38,7 @@ class image_commands():
         await self.bot.say('/home/pi/thombot/pictures/dva.png')
 
     @commands.command()
-    async def mission_statement(self):
+    async def mission(self):
         await self.bot.say('/home/pi/thombot/pictures/thom_stargazer.jpg')
 
     @commands.command()
