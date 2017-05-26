@@ -1,5 +1,5 @@
 from discord.ext import commands
-from discord_token import *
+from discord_tokens import *
 
 description = """
     I am thom bot! I'm here to make things more dumb!!!
@@ -30,4 +30,4 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('failed to load extention {}\n{}'.format(extention, exc))
 
-bot.run(discord_token.token)
+bot.run(discord_tokens.token)
