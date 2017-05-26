@@ -34,7 +34,7 @@ class image_commands():
         await self.bot.say('RETURN THE SLAAAAB')
 
     @commands.command()
-    async def dva(self:
+    async def dva(self):
         await self.bot.say('/home/pi/thombot/pictures/dva.png')
 
     @commands.command()
