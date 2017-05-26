@@ -1,11 +1,12 @@
 from discord.ext import commands
+import discord
 from discord_tokens import *
 
 description = """
     I am thom bot! I'm here to make things more dumb!!!
     """
 
-startup_extentions = ["cogs.image_commands"]
+startup_extensions = ["cogs.image_commands"]
 
 bot = commands.Bot(command_prefix='!', description=description)
 
@@ -23,7 +24,7 @@ async def on_member_join(member):
 if __name__ == "__main__":
     for extention in startup_extentions:
         try:
-            bot.load_extention(extention)
+            bot.load_extension(extension)
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('failed to load extention {}\n{}'.format(extention, exc))
