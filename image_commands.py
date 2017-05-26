@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import random
+import requests
 
 class image_commands():
     def __init__(self, bot):
