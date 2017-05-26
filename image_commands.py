@@ -48,9 +48,8 @@ class image_commands():
         await self.bot.send_file(channel, '/home/pi/thombot/pictures/thom_stargazer.jpg')
 
     @commands.command(pass_context = True)
-    async def goo(self, message):
-        channel = message.channel
-        await self.bot.send_file(channel, '/home/pi/thombot/pictures/goo.jpg')
+    async def goo(self, ctx, message):
+        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/goo.jpg')
 
 def setup(bot):
     bot.add_cog(image_commands(bot))
