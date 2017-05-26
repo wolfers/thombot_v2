@@ -21,7 +21,6 @@ async def on_ready():
 async def on_member_join(member):
     bot.say('{} welcome {} to the server!'.format(member.roles[0].mention, member.mention))
 
-
 if __name__ == "__main__":
     for extention in startup_extentions:
         try:
@@ -30,4 +29,4 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('failed to load extention {}\n{}'.format(extention, exc))
 
-bot.run(discord_tokens.token)
+bot.run(token)
