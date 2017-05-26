@@ -37,7 +37,6 @@ class image_commands():
 
     @commands.command(pass_context = True)
     async def dva(self, ctx):
-        channel = message.channel
         await self.bot.send_file(channel, '/home/pi/thombot/pictures/dva.png')
 
     @commands.command(pass_context = True)
