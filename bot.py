@@ -3,10 +3,11 @@ import discord
 from discord_tokens import *
 
 description = """
-    I am thom bot! I'm here to make things more dumb!!!
+    I am thom-bot! I'm here to make things more dumb!!!
     """
 
-startup_extensions = ["image_commands"]
+startup_extensions = [  "image_commands",
+                        "other_commands"]
 
 bot = commands.Bot(command_prefix='!', description=description)
 
