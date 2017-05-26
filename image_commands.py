@@ -41,7 +41,7 @@ class image_commands():
     async def mission_statement(self):
         await bot.say(message.channel, '/home/pi/thombot/pictures/thom_stargazer.jpg')
 
-    @command.command
+    @goo.command
     async def goo(self):
         await bot.say(message.channel, '/home/pi/thombot/pictures/goo.jpg')
 
