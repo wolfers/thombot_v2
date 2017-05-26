@@ -23,29 +23,34 @@ class image_commands():
         await self.bot.say(rand_song)
 
     @commands.command()
-    async def harambe(self):
+    async def harambe(self, message):
+        channel = message.channel
         harambe_pics = ('Harambe.jpg','Harambe2.jpg','Harambe3.jpg','Harambe4.jpg','Harambe5.jpg','Harambe6.jpg','Harambe7.jpg','Harambe8.jpg')
-        await self.bot.say('/home/pi/thombot/pictures/harambe/' + random.choice(harambe_pics))
+        await self.bot.send_file(channel, '/home/pi/thombot/pictures/harambe/' + random.choice(harambe_pics))
 
     @commands.command()
-    async def aliens(self):
-        await self.bot.say('/home/pi/thombot/pictures/aliens.png')
+    async def aliens(self, message):
+        channel = message.channel
+        await self.bot.send_file(channel, '/home/pi/thombot/pictures/aliens.png')
 
     @commands.command()
     async def slab(self):
         await self.bot.say('RETURN THE SLAAAAB')
 
     @commands.command()
-    async def dva(self):
-        await self.bot.say('/home/pi/thombot/pictures/dva.png')
+    async def dva(self, message):
+        channel = message.channel
+        await self.bot.send_file(channel, '/home/pi/thombot/pictures/dva.png')
 
     @commands.command()
-    async def mission(self):
-        await self.bot.say('/home/pi/thombot/pictures/thom_stargazer.jpg')
+    async def mission(self, message):
+        channel = message.channel
+        await self.bot.send_file(channel, '/home/pi/thombot/pictures/thom_stargazer.jpg')
 
     @commands.command()
-    async def goo(self):
-        await self.bot.say('/home/pi/thombot/pictures/goo.jpg')
+    async def goo(self, message):
+        channel = message.channel
+        await self.bot.send_file(channel, '/home/pi/thombot/pictures/goo.jpg')
 
 def setup(bot):
     bot.add_cog(image_commands(bot))
