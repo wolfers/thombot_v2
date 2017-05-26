@@ -33,13 +33,13 @@ class other_commands():
     async def stfu(self):
         await self.bot.say('https://youtu.be/OLpeX4RRo28')
 
-    @commands.command
+    @commands.command()
     async def ban(self):
         await self.bot.say('you\'ve been banned, {}!'.format(message.mentions[0].mention))
 
     @commands.command()
     async def cooking(self):
         await self.bot.say('https://itsyourlifeloafofbread.tumblr.com/')
-        
+
 def setup(bot):
     bot.add_cog(other_commands(bot))
