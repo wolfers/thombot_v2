@@ -52,7 +52,7 @@ class image_commands():
     #second goo picture
     @commands.command(pass_context=True)
     async def goo2(self, ctx):
-        await self.bot.send_file(ctx.message.channel, "/home/pi/thombot_v2/pictures/goo2.jpg")
+        await self.bot.send_file(ctx.message.channel, "/home/pi/thombot_v2/pictures/goo2.png")
 
 def setup(bot):
     bot.add_cog(image_commands(bot))
