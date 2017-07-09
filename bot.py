@@ -3,13 +3,17 @@ from discord.ext import commands
 #contains token to log in the bot
 from discord_tokens import *
 
+if not discord.opus.is_load():
+    discord.opus.load_opus('/usr/lib/libopus.so')
+
 description = """
     I am thom-bot! I'm here to make things more dumb!!!
     """
 
 #the extentions that contain all the bot commands
 startup_extensions = [  "image_commands",
-                        "other_commands"]
+                        "other_commands",
+                     ]
 
 bot = commands.Bot(command_prefix='!', description=description)
 
