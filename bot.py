@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 
 #contains token to log in the bot
 from discord_tokens import *
