@@ -24,34 +24,34 @@ class image_commands():
         await self.bot.say(rand_song)
 
     #posts a random picture of harambe
-    @commands.command(pass_context = True)
+    @commands.command(pass_context=True)
     async def harambe(self, ctx):
         harambe_pics = ('Harambe.jpg','Harambe2.jpg','Harambe3.jpg','Harambe4.jpg','Harambe5.jpg','Harambe6.jpg','Harambe7.jpg','Harambe8.jpg')
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/harambe/' + random.choice(harambe_pics))
 
     #posts a picture of the aliens guiy
-    @commands.command(pass_context = True)
+    @commands.command(pass_context=True)
     async def aliens(self, ctx):
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/aliens.png')
 
     #posts a picture of gremlin dva
-    @commands.command(pass_context = True)
+    @commands.command(pass_context=True)
     async def dva(self, ctx):
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/dva.png')
 
     #posts the mission statement
-    @commands.command(pass_context = True)
+    @commands.command(pass_context=True)
     async def mission(self, ctx):
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/thom_stargazer.jpg')
 
     #posts the shoot your goo picture
-    @commands.command(pass_context = True)
+    @commands.command(pass_context=True)
     async def goo(self, ctx):
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/goo.jpg')
 
     #second goo picture
-    @commands.command(pass_context = True)
-    async def goo2(selfself, ctx):
+    @commands.command(pass_context=True)
+    async def goo2(self, ctx):
         await self.bot.send_file(ctx.message.channel, "/home/pi/thombot_v2/pictures/goo2.jpg")
 
 def setup(bot):
