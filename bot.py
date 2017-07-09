@@ -4,7 +4,7 @@ import discord
 #contains token to log in the bot
 from discord_tokens import *
 
-if not discord.opus.is_load():
+if not discord.opus.is_loaded():
     discord.opus.load_opus('/usr/lib/libopus.so')
 
 description = """
