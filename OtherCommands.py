@@ -26,7 +26,7 @@ class OtherCommands:
         role_test = 1
         for role in ctx.message.author.roles:
             if role.name == 'bot friend':
-                avatar = open('/home/pi/thombot/pictures/avatar.jpg', 'rb')
+                avatar = open('/home/pi/thombot_v2/pictures/avatar.jpg', 'rb')
                 await self.bot.edit_profile(avatar=avatar.read())
                 role_test = 0
                 break

@@ -28,27 +28,27 @@ class ImageCommands:
     @commands.command(pass_context=True)
     async def harambe(self, ctx):
         harambe_pics = ('Harambe.jpg','Harambe2.jpg','Harambe3.jpg','Harambe4.jpg','Harambe5.jpg','Harambe6.jpg','Harambe7.jpg','Harambe8.jpg')
-        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/harambe/' + random.choice(harambe_pics))
+        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/harambe/' + random.choice(harambe_pics))
 
     # posts a picture of the aliens guiy
     @commands.command(pass_context=True)
     async def aliens(self, ctx):
-        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/aliens.png')
+        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/aliens.png')
 
     # posts a picture of gremlin dva
     @commands.command(pass_context=True)
     async def dva(self, ctx):
-        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/dva.png')
+        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/dva.png')
 
     # posts the mission statement
     @commands.command(pass_context=True)
     async def mission(self, ctx):
-        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/thom_stargazer.jpg')
+        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/thom_stargazer.jpg')
 
     # posts the shoot your goo picture
     @commands.command(pass_context=True)
     async def goo(self, ctx):
-        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot/pictures/goo.jpg')
+        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/goo.jpg')
 
     # second goo picture
     @commands.command(pass_context=True)
