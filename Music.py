@@ -9,6 +9,13 @@ class VoiceEntry:
         self.channel = message.channel
         self.player = player
 
+    def __str__(self):
+        fmt = '*{0.title}*'
+        duration = self.player.duration
+        if duration:
+            fmt = fmt + ' [length: {0[0]}m {0[1]}s]'.format(divmod(duration, 60))
+        return fmt.format(self.player)
+
 
 class VoiceState:
     def __init__(self, bot):
@@ -144,7 +151,7 @@ class Music:
     @commands.command(pass_context=True, no_pm=True)
     async def resume(self, ctx):
         state = self.get_voice_state(ctx.message.server)
-        if state.in_playing():
+        if state.is_playing():
             player = state.player
             player.resume()
 
