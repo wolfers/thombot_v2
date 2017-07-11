@@ -96,7 +96,7 @@ class Music:
             return False
 
         state = self.get_voice_state(ctx.message.server)
-        if state.voice in None:
+        if state.voice is None:
             state.voice = await self.bot.join_voice_channel(summoned_channel)
         else:
             await state.voice.move_to(summoned_channel)
