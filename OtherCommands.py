@@ -59,7 +59,7 @@ class OtherCommands:
 
     @commands.command()
     async def WehavenobeginningWehavenoendWeareinfiniteMillionsofyearsafteryourcivilizationhasbeeneradicatedandforgottenwewillendure(self):
-        await self.bot.say('ok')
+        await self.bot.say('We impose order on the chaos of organic evolution. You exist because we allow it, and you will end because we demand it. ')
 
 def setup(bot):
     bot.add_cog(OtherCommands(bot))
