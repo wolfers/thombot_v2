@@ -9,8 +9,9 @@ class OtherCommands:
     # sets the playing tag for the bot. only someone with the bot friend role can change this.
     @commands.command(pass_context=True)
     async def gameset(self, ctx):
+        print(ctx.message.author)
         for role in ctx.message.author.roles:
-            if role.name == 'bot friend' or ctx.author.id == '7698':
+            if role.name == 'bot friend' or ctx.message.author.id == '7698':
                 game_name = ctx.message.content[9:]
                 await self.bot.change_presence(game=discord.Game(name=game_name))
                 break
