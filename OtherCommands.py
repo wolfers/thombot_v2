@@ -57,6 +57,9 @@ class OtherCommands:
     async def owo(self):
         await self.bot.say('*notices buldge* What\'s this?')
 
+    @commands.command()
+    async def WehavenobeginningWehavenoendWeareinfiniteMillionsofyearsafteryourcivilizationhasbeeneradicatedandforgottenwewillendure(self):
+        await self.bot.say('ok')
 
 def setup(bot):
     bot.add_cog(OtherCommands(bot))
