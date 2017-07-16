@@ -1,5 +1,6 @@
 from discord.ext import commands
 import discord
+import re
 
 # contains token to log in the bot
 from discord_tokens import *
@@ -35,7 +36,7 @@ async def on_member_join(member):
 
 @bot.event
 async def on_message(message):
-    if message.content.startswith('owo'):
+    if re.search(r' owo ', message.content):
         await bot.send_message(message.channel, '*notices bulge* What\'s this?')
     await bot.process_commands(message)
 
