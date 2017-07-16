@@ -26,10 +26,6 @@ async def on_ready():
     print(bot.user.id)
     print('-----')
 
-@bot.event
-async def on_message(message):
-    if message.content.startswith('owo'):
-        await bot.send_message(message.channel, '*notices buldge* what\'s this?')
 
 # Welcome new members that join the server
 @bot.event

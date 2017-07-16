@@ -53,6 +53,10 @@ class OtherCommands:
     async def cooking(self):
         await self.bot.say('https://itsyourlifeloafofbread.tumblr.com/')
 
+    @commands.command()
+    async def owo(self):
+        await self.bot.say('*notices buldge* What\'s this?')
+
 
 def setup(bot):
     bot.add_cog(OtherCommands(bot))
