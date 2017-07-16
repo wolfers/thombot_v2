@@ -6,3 +6,5 @@ things to do:
 -
 * look into listening for voice commands
 * see if tts can be played through audio
+
+test
