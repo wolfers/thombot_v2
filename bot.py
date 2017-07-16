@@ -32,6 +32,13 @@ async def on_ready():
 async def on_member_join(member):
     bot.say('{} welcome {} to the server!'.format(member.roles[0].mention, member.mention))
 
+
+@bot.event
+async def on_message(message):
+    if message.content.startswith('owo'):
+        bot.send_message(message.channel, '*notices bulge* What\'s this?')
+        await bot.process_commands(message)
+
 # load the extention files that contain the commands for the bot
 if __name__ == "__main__":
     for extension in startup_extensions:
