@@ -53,10 +53,6 @@ class OtherCommands:
     async def cooking(self):
         await self.bot.say('https://itsyourlifeloafofbread.tumblr.com/')
 
-    # @commands.command()
-    # async def owo(self):
-    #     await self.bot.say('*notices buldge* What\'s this?')
-
     @commands.command()
     async def WehavenobeginningWehavenoendWeareinfiniteMillionsofyearsafteryourcivilizationhasbeeneradicatedandforgottenwewillendure(self):
         await self.bot.say('We impose order on the chaos of organic evolution. You exist because we allow it, and you will end because we demand it. ')
