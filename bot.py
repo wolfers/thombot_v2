@@ -35,9 +35,9 @@ async def on_member_join(member):
 
 @bot.event
 async def on_message(message):
-    #f message.content.startswith('owo'):
-    bot.send_message(message.channel, '*notices bulge* What\'s this?')
-    print('why')
+    if message.content.startswith('owo'):
+        bot.send_message(message.channel, '*notices bulge* What\'s this?')
+        print('why')
     await bot.process_commands(message)
 
 # load the extention files that contain the commands for the bot
