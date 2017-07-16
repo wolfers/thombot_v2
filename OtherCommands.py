@@ -11,12 +11,12 @@ class OtherCommands:
     async def gameset(self, ctx):
         print(ctx.message.author.id)
         for role in ctx.message.author.roles:
-            if role.name == 'bot friend' or ctx.message.author.id == '7698':
+            if role.name == 'bot friend' or ctx.message.author.id == '88838960175910912':
                 game_name = ctx.message.content[9:]
                 await self.bot.change_presence(game=discord.Game(name=game_name))
                 break
         else:
-            await self.bot.say('I\'m afraid I can\'t do that, {}.'.format(ctx.author.mention))
+            await self.bot.say('I\'m afraid I can\'t do that, {}.'.format(ctx.message.author.mention))
 
     # sets the avatar picture for the bot. It wasn't working on the website so I made this command to update it manually
     # it takes whatever picture you give it in the images folder. Need bot friend role to use command
@@ -28,7 +28,7 @@ class OtherCommands:
                 await self.bot.edit_profile(avatar=avatar.read())
                 break
         else:
-            await self.bot.say('I\'m afraid I can\'t do that, {}.'.format(ctx.author.mention))
+            await self.bot.say('I\'m afraid I can\'t do that, {}.'.format(ctx.message.author.mention))
     # post in chat the text
     @commands.command()
     async def slab(self):
