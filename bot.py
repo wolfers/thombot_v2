@@ -37,7 +37,7 @@ async def on_member_join(member):
 async def on_message(message):
     if message.content.startswith('owo'):
         bot.send_message(message.channel, '*notices bulge* What\'s this?')
-        await bot.process_commands(message)
+    await bot.process_commands(message)
 
 # load the extention files that contain the commands for the bot
 if __name__ == "__main__":
