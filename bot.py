@@ -36,7 +36,7 @@ async def on_member_join(member):
 
 @bot.event
 async def on_message(message):
-    if re.search(r'( )*owo( )*', message.content):
+    if re.search(r'( )owo( )', message.content) or message.content.startswith('owo'):
         await bot.send_message(message.channel, '*notices bulge* What\'s this?')
     await bot.process_commands(message)
 
