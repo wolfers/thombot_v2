@@ -9,7 +9,7 @@ class OtherCommands:
     # sets the playing tag for the bot. only someone with the bot friend role can change this.
     @commands.command(pass_context=True)
     async def gameset(self, ctx):
-        print(ctx.message.author)
+        print(ctx.message.author.id)
         for role in ctx.message.author.roles:
             if role.name == 'bot friend' or ctx.message.author.id == '7698':
                 game_name = ctx.message.content[9:]
