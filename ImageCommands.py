@@ -10,7 +10,7 @@ class ImageCommands:
 
     # posts a random cat picture from either thecatapi or random.cat/meow
     @commands.command(pass_context=True)
-    async def cat(self, ctx):
+    async def cat(self):
         # CommandTracker.add_entry(ctx.message.author.id, 'cat')
         ran_cat_link = random.choice(['http://thecatapi.com/api/images/get', 'http://random.cat/meow'])
         if ran_cat_link == 'http://random.cat/meow':
@@ -21,7 +21,7 @@ class ImageCommands:
 
     # posts a random nickelback song
     @commands.command(pass_context=True)
-    async def nickelback(self, ctx):
+    async def nickelback(self):
         # CommandTracker.add_entry(ctx.message.author.id, 'nickelback')
         songs = ('https://www.youtube.com/watch?v=BB0DU4DoPP4', 'https://www.youtube.com/watch?v=4OjiOn5s8s8',
                  'https://www.youtube.com/watch?v=_1hgVcNzvzY', 'https://www.youtube.com/watch?v=PvxVNGdwVwk',
@@ -75,7 +75,7 @@ class ImageCommands:
     # random dog picture
     @commands.command()
     async def dog(self):
-        await self.bot.say('http://www.randomdoggiegenerator.com/randomdoggie.php')
+        await self.bot.say(requests.get('https://random.dog/woof.json').json()['url'])
 
 
 def setup(bot):
