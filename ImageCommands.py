@@ -70,7 +70,12 @@ class ImageCommands:
     @commands.command(pass_context=True)
     async def goo2(self, ctx):
         # CommandTracker.add_entry(ctx.message.author.id, 'goo2')
-        await self.bot.send_file(ctx.message.channel, "/home/pi/thombot_v2/pictures/goo2.png")
+        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/goo2.png')
+
+    # random dog picture
+    @commands.command()
+    async def dog(self):
+        await self.bot.say('http://www.randomdoggiegenerator.com/randomdoggie.php')
 
 
 def setup(bot):
