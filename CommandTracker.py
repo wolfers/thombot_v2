@@ -7,13 +7,11 @@ import shelve
 def add_entry(user, command):
     """increments number of command used by a specific user when called"""
     with shelve.open('CommandTracker') as tracker:
-        if user not in tracker:
-            tracker[user] = {command: 1}
+        if command in tracker[user]:
+            tracker[user][command] += 1
         else:
-            if command in tracker[user]:
-                tracker[user][command] += 1
-            else:
-                tracker[user][command] = 1
+            tracker[user][command] = 1
+        return
 
 
 def used_commands(user):
