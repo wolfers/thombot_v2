@@ -30,6 +30,16 @@ class OtherCommands:
                 break
         else:
             await self.bot.say('I\'m afraid I can\'t do that, {}.'.format(ctx.message.author.mention))
+
+    # retrieve the commands that a user has used
+    @commands.command(pass_context=True)
+    async def used_commands(self, ctx):
+        command_dict = CommandTracker.used_commands(ctx.message.author.id)
+        print_list = ''
+        for command in command_dict:
+            print_list += (command + ': ' + str(command_dict[command]) + '\n')
+        await self.bot.say(print_list)
+
     # post in chat the text
     @commands.command(pass_context=True)
     async def slab(self, ctx):
