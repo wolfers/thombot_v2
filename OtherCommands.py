@@ -37,7 +37,7 @@ class OtherCommands:
         command_dict = CommandTracker.used_commands(ctx.message.author.id)
         print_list = ''
         for command in command_dict:
-            print_list += (command + ': ' + str(command_dict[command]) + '\n')
+            print_list += (command + ': ' + str(command_dict[command]) + ' ')
         await self.bot.say(print_list)
 
     # post in chat the text
