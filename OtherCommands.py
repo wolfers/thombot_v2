@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import CommandTracker
 
 
 class OtherCommands:
@@ -30,27 +31,32 @@ class OtherCommands:
         else:
             await self.bot.say('I\'m afraid I can\'t do that, {}.'.format(ctx.message.author.mention))
     # post in chat the text
-    @commands.command()
-    async def slab(self):
+    @commands.command(pass_context=True)
+    async def slab(self, ctx):
+        CommandTracker.add_entry(ctx.message.author.id, 'slab')
         await self.bot.say('RETURN THE SLAAAAB')
 
     # posts the filthy frank song
-    @commands.command()
-    async def stfu(self):
+    @commands.command(pass_context=True)
+    async def stfu(self, ctx):
+        CommandTracker.add_entry(ctx.message.author.id, 'stfu')
         await self.bot.say('https://youtu.be/OLpeX4RRo28')
 
     # "bans" someone (just says they're banned in chat"
     @commands.command(pass_context=True)
     async def ban(self, ctx):
+        CommandTracker.add_entry(ctx.message.author.id, 'ban')
         await self.bot.say('you\'ve been banned, {}!'.format(ctx.message.mentions[0].mention))
 
     # nick's cooking blog that he probably wont update after the first post
-    @commands.command()
-    async def cooking(self):
+    @commands.command(pass_context=True)
+    async def cooking(self, ctx):
+        CommandTracker.add_entry(ctx.message.author.id, 'cooking')
         await self.bot.say('https://itsyourlifeloafofbread.tumblr.com/')
 
-    @commands.command()
-    async def WehavenobeginningWehavenoendWeareinfiniteMillionsofyearsafteryourcivilizationhasbeeneradicatedandforgottenwewillendure(self):
+    @commands.command(pass_context=True)
+    async def WehavenobeginningWehavenoendWeareinfiniteMillionsofyearsafteryourcivilizationhasbeeneradicatedandforgottenwewillendure(self, ctx):
+        CommandTracker.add_entry(ctx.message.author.id, 'mass effect')
         await self.bot.say('We impose order on the chaos of organic evolution. You exist because we allow it, and you will end because we demand it. ')
 
 def setup(bot):

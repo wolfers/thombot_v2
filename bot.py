@@ -12,7 +12,7 @@ description = """
     I am thom-bot! I'm here to make things more dumb!!!
     """
 
-# the extentions that contain all the bot commands
+# the extensions that contain all the bot commands
 startup_extensions = ["ImageCommands",
                       "OtherCommands",
                       "Music"]
@@ -28,7 +28,7 @@ async def on_ready():
     print('-----')
 
 
-# Welcome new members that join the server
+# Welcome new members that join the server(does not work right now)
 @bot.event
 async def on_member_join(member):
     bot.say('{} welcome {} to the server!'.format(member.roles[0].mention, member.mention))
@@ -40,14 +40,13 @@ async def on_message(message):
         await bot.send_message(message.channel, '*notices bulge* What\'s this?')
     await bot.process_commands(message)
 
-# load the extention files that contain the commands for the bot
+# load the extension files that contain the commands for the bot
 if __name__ == "__main__":
     for extension in startup_extensions:
         try:
             bot.load_extension(extension)
-        except Exception as e:
-            exc = '{}: {}'.format(type(e).__name__, e)
-            print('failed to load extension {}\n{}'.format(extension, exc))
+        except:
+            pass
 
 # run the bot
 bot.run(token)
