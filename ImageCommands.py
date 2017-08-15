@@ -77,6 +77,12 @@ class ImageCommands:
     async def dog(self):
         await self.bot.say(requests.get('https://random.dog/woof.json').json()['url'])
 
+    # random skeleton picture
+    @commands.command(pass_context=True)
+    async def skeleton(self, ctx):
+        skeleton = 'skeleton' + random.randint(1,19) + '.jpg'
+        await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/skeletons/' + skeleton)
+
 
 def setup(bot):
     bot.add_cog(ImageCommands(bot))
