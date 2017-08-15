@@ -80,7 +80,7 @@ class ImageCommands:
     # random skeleton picture
     @commands.command(pass_context=True)
     async def skeleton(self, ctx):
-        skeleton = 'skeleton' + random.randint(1,19) + '.jpg'
+        skeleton = 'skeleton' + str(random.randint(1,19)) + '.jpg'
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/skeletons/' + skeleton)
 
 
