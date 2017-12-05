@@ -1,8 +1,6 @@
-from PIL import ImageFont
-from PIL import Image
-from PIL import ImageDraw
+from PIL import ImageFont, Image, ImageDraw
 
-font = ImageFont.truetype("comicsans.ttf", 15)
+font = ImageFont.truetype("comic-sans.ttf", 15)
 
 #def textprep(message):
 
