@@ -1,6 +1,6 @@
 from PIL import ImageFont
 from PIL import Image
-from PIl import ImageDraw
+from PIL import ImageDraw
 
 font = ImageFont.truetype("comicsans.ttf", 15)
 
