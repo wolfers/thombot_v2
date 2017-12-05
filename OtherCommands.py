@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-#from ImageText import textadd
+import ImageText
 
 
 class OtherCommands:
@@ -57,7 +57,7 @@ class OtherCommands:
 
     @commands.command(pass_context=True)
     async def addgoo(self, ctx):
-        textadd(ctx.message[7:])
+        ImageText.textadd(ctx.message[7:])
         await self.bot.send_file("/home/pi/thombot_v2/pictures/gootext.png")
 
 def setup(bot):
