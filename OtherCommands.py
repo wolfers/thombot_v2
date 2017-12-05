@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from ImageText import textadd
+#from ImageText import textadd
 
 
 class OtherCommands:
