@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-#import ImageText
+import ImageText
 
 
 class OtherCommands:
