@@ -13,7 +13,7 @@ description = """
     """
 
 # the extensions that contain all the bot commands
-startup_extensions = ["ImageCommands",
+startup_extensions = [#"ImageCommands",
                       "OtherCommands",
                       "Music"]
 
