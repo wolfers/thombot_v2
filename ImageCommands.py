@@ -11,7 +11,6 @@ class ImageCommands:
     # posts a random cat picture from either thecatapi or random.cat/meow
     @commands.command(pass_context=True)
     async def cat(self):
-        # CommandTracker.add_entry(ctx.message.author.id, 'cat')
         ran_cat_link = random.choice(['http://thecatapi.com/api/images/get', 'http://random.cat/meow'])
         if ran_cat_link == 'http://random.cat/meow':
             ran_cat = requests.get(ran_cat_link).json()["file"]
@@ -22,7 +21,6 @@ class ImageCommands:
     # posts a random nickelback song
     @commands.command(pass_context=True)
     async def nickelback(self):
-        # CommandTracker.add_entry(ctx.message.author.id, 'nickelback')
         songs = ('https://www.youtube.com/watch?v=BB0DU4DoPP4', 'https://www.youtube.com/watch?v=4OjiOn5s8s8',
                  'https://www.youtube.com/watch?v=_1hgVcNzvzY', 'https://www.youtube.com/watch?v=PvxVNGdwVwk',
                  'https://www.youtube.com/watch?v=JtxpcQaSR0k',  'https://www.youtube.com/watch?v=76RbWuFll0Y',
@@ -36,7 +34,6 @@ class ImageCommands:
     # posts a random picture of harambe
     @commands.command(pass_context=True)
     async def harambe(self, ctx):
-        # CommandTracker.add_entry(ctx.message.author.id, 'harambe')
         harambe_pics = ('Harambe.jpg', 'Harambe2.jpg', 'Harambe3.jpg', 'Harambe4.jpg', 'Harambe5.jpg', 'Harambe6.jpg',
                         'Harambe7.jpg', 'Harambe8.jpg')
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/harambe/' +
@@ -45,31 +42,26 @@ class ImageCommands:
     # posts a picture of the aliens guy
     @commands.command(pass_context=True)
     async def aliens(self, ctx):
-        # CommandTracker.add_entry(ctx.message.author.id, 'aliens')
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/aliens.png')
 
     # posts a picture of gremlin dva
     @commands.command(pass_context=True)
     async def dva(self, ctx):
-        # CommandTracker.add_entry(ctx.message.author.id, 'dva')
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/dva.png')
 
     # posts the mission statement
     @commands.command(pass_context=True)
     async def mission(self, ctx):
-        # CommandTracker.add_entry(ctx.message.author.id, 'mission')
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/thom_stargazer.jpg')
 
     # posts the shoot your goo picture
     @commands.command(pass_context=True)
     async def goo(self, ctx):
-        # CommandTracker.add_entry(ctx.message.author.id, 'goo')
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/goo.jpg')
 
     # second goo picture
     @commands.command(pass_context=True)
     async def goo2(self, ctx):
-        # CommandTracker.add_entry(ctx.message.author.id, 'goo2')
         await self.bot.send_file(ctx.message.channel, '/home/pi/thombot_v2/pictures/goo2.png')
 
     # random dog picture
