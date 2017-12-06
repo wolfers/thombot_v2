@@ -6,7 +6,7 @@ font = ImageFont.truetype("comic-sans.ttf", 15)
 
 
 def textadd(message):
-    img = Image.open("blankgoo.jpg")
+    img = Image.open("blankgoo.png")
     draw = ImageDraw.Draw(img)
     #message = textprep(message)
     draw.text((407, 191), message, font=font)
