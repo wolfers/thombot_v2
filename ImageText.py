@@ -17,6 +17,6 @@ def textprep(message):
         if letter != " ":
             count = count + 1
         elif count > 6:
-            message[place] = "\n"
+            message = message[:place] + "\n" + message[place + 2:]
         place = place + 1
     return message
