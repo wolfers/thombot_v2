@@ -1,12 +1,12 @@
 from PIL import ImageFont, Image, ImageDraw
 
-font = ImageFont.truetype("comic-sans.ttf", 60)
+font = ImageFont.truetype("comic-sans.ttf", 40)
 
 def textadd(message):
     img = Image.open("/home/pi/thombot_v2/pictures/blankgoo.png")
     draw = ImageDraw.Draw(img)
     message = textprep(message)
-    draw.text((350, 110), message, fill=(0,0,0,0), font=font)
+    draw.text((420, 110), message, fill=(0,0,0,0), font=font)
     draw = ImageDraw.Draw(img)
     img.save("/home/pi/thombot_v2/pictures/gootext.png")
 
