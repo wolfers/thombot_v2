@@ -57,8 +57,8 @@ class OtherCommands:
 
     @commands.command(pass_context=True)
     async def addgoo(self, ctx):
-        ImageText.textadd(ctx.message[7:])
-        await self.bot.send_file("/home/pi/thombot_v2/pictures/gootext.png")
+        ImageText.textadd(ctx.message.content[7:])
+        await self.bot.send_file(ctx.message.channel, "/home/pi/thombot_v2/pictures/gootext.png")
 
 def setup(bot):
     bot.add_cog(OtherCommands(bot))
