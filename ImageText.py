@@ -6,7 +6,7 @@ def textadd(message):
     img = Image.open("/home/pi/thombot_v2/pictures/blankgoo.png")
     draw = ImageDraw.Draw(img)
     message = textprep(message)
-    draw.text((420, 110), message, fill=(0,0,0,0), font=font)
+    draw.text((420, 150), message, fill=(0,0,0,0), font=font)
     draw = ImageDraw.Draw(img)
     img.save("/home/pi/thombot_v2/pictures/gootext.png")
 

@@ -56,7 +56,7 @@ class OtherCommands:
         await self.bot.say('We impose order on the chaos of organic evolution. You exist because we allow it, and you will end because we demand it. ')
 
     @commands.command(pass_context=True)
-    async def addgoo(self, ctx):
+    async def gooedit(self, ctx):
         ImageText.textadd(ctx.message.content[7:])
         await self.bot.send_file(ctx.message.channel, "/home/pi/thombot_v2/pictures/gootext.png")
 
