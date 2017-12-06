@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import ImageText
+from ImageText import *
 
 
 class OtherCommands:
@@ -57,7 +57,7 @@ class OtherCommands:
 
     @commands.command(pass_context=True)
     async def gooedit(self, ctx):
-        ImageText.textadd(ctx.message.content[9:])
+        textadd(ctx.message.content[9:])
         await self.bot.send_file(ctx.message.channel, "/home/pi/thombot_v2/pictures/gootext.png")
 
 def setup(bot):
