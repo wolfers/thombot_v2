@@ -1,6 +1,7 @@
 from discord.ext import commands
 import asyncio
 import discord
+import time
 
 
 class VoiceEntry:
@@ -192,6 +193,7 @@ class Music:
         else:
             await state.voice.move_to(summoned_channel)
         try:
+            time.sleep(3)
             state.voice.play_audio('op.mp3')
         except Exception as e:
             await self.bot.say('An error occurred while running the command: \n{}: {}\n'.format(type(e).__name__, e))
