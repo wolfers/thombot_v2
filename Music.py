@@ -192,7 +192,7 @@ class Music:
         else:
             await state.voice.move_to(summoned_channel)
         try:
-            state.voice.play_audio('op.wav')
+            state.voice.play_audio('op.wav', encode=True)
         except Exception as e:
             await self.bot.say('An error occurred while running the command: \n{}: {}\n'.format(type(e).__name__, e))
 
