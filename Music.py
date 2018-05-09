@@ -193,10 +193,8 @@ class Music:
             await state.voice.move_to(summoned_channel)
         try:
             state.voice.play_audio(op.wav)
-        except discord.clientException:
-            self.bot.say('clientException')
-        except discord.OpusError:
-            self.bot.say('OpusError')
+        except Exception as e:
+            await self.bot.say('An error occurred while running the command: \n{}: {}\n'.format(type(e).__name__, e))
 
         if state.is_playing():
             state.player.stop()
