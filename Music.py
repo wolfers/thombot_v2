@@ -179,6 +179,34 @@ class Music:
 
         state.skip()
 
+    @commands.command(pass_context=True, no_pm=True)
+    async def noise(self, ctx):
+        summoned_channel = ctx.message.author.voice_channel
+        if summoned_channel is None:
+            await self.bot.say("You're not in a voice channel.")
+            return False
+
+        state = self.get_voice_state(ctx.message.server)
+        if state.voice is None:
+            state.voice = await self.bot.join_voice_channel(summoned_channel)
+        else:
+            await state.voice.move_to(summoned_channel)
+        try:
+            state.voice.play_audio(op.wav)
+        except discord.clientException:
+            self.bot.say('clientException')
+        except discord.OpusError:
+            self.bot.say('OpusError')
+
+        if state.is_playing():
+            state.player.stop()
+        try:
+            state.audio_player.cancel()
+            del self.voice_states[server.id]
+            await state.voice.disconnect()
+        except:
+            pass
+
 
 def setup(bot):
     bot.add_cog(Music(bot))
