@@ -1,5 +1,8 @@
 # all of the voice stuff for the bot
+#add checks to all fuctions for voice_channel verification(doesn't need a voice channel)
+#add function to delete voice_channel entries
 
+from saveDataHandler import load_voice_channels, save_voice_channel
 from disco.bot import Bot, Plugin
 from disco.bot.command import CommandError
 from disco.voice.player import Player
@@ -76,3 +79,10 @@ class MusicPlugin(Plugin):
         player.disconnect()
         player.client.ws.sock.shutdown()
         return event.msg.reply("hope you enjoyed my beatiful noises!")
+
+    @Plugin.command('addVoiceChannel')
+    def on_addVoiceChannel(self, event):
+        result = save_voice_channel(event.guild.id, event.msg.user.voice_id)
+        if result is True:
+            return event.msg.reply('You have chosen. It can never be undone. (unless you use the deleteVoiceChannel command)')
+        return event.msg.reply('Already a part of a channel! Use deleteVoiceChannel command to reset the channel')
