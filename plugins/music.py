@@ -3,7 +3,7 @@
 from disco.bot import Bot, Plugin
 from disco.bot.command import CommandError
 from disco.voice.player import Player
-from disco.voice.playable import YoutubeDLInput, BufferedOpusEncoderPlayable
+from disco.voice.playable import YoutubeDLInput, BufferedOpusEncoderPlayable, OpusFilePlayable
 from disco.voice.client import VoiceException
 
 class MusicPlugin(Plugin):
@@ -18,7 +18,7 @@ class MusicPlugin(Plugin):
     
         state = event.guild.get_member(event.author).get_voice_state()
         if not state:
-            return event.msg.reply("You must be ina  voice channel to do that")
+            return event.msg.reply("You must be in a voice channel to do that")
     
         try:
             client = state.channel.connect()
@@ -31,7 +31,7 @@ class MusicPlugin(Plugin):
 
     def get_player(self, guild_id):
         if guild_id not in self.guilds:
-            raise CommandError("I'm not currently palying any music here!")
+            raise CommandError("I'm not currently playing any music here!")
         return self.guilds.get(guild_id)
 
     @Plugin.command('leave')
@@ -55,3 +55,24 @@ class MusicPlugin(Plugin):
     @Plugin.command('kill')
     def on_kill(self, event):
         self.get_player(event.guild.id).client.ws.sock.shutdown()
+
+    @Plugin.command('blep')
+    def on_blep(self, event):
+        if event.guild.id in self.guilds:
+            return event.msg.reply('I\'m busy, fuck off!')
+
+        state = event.guild.get_member(event.author).get_voice_state()
+        if not state:
+            return event.msg.reply(f"You must be in a voice channel, you must suffer too {event.author}.")
+
+        try:
+            client = state.channel.connect()
+        except VoiceException as e:
+            return event.msg.reply(f"sorry, no dumb noises today: {e}")
+        
+        player = Player(client)
+        item = OpusFilePlayable('../sounds/op.opus').pipe(BufferedOpusEncoderPlayable)
+        player.play(item).complete.wait()
+        player.disconnect()
+        player.client.ws.sock.shutdown()
+        return event.msg.reply("hope you enjoyed my beatiful noises!")
