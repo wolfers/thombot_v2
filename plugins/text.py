@@ -1,6 +1,6 @@
-
 from disco.bot import Plugin
 from PIL import ImageFont, Image, ImageDraw
+from nltk.sentiment import vader
 
 #set font for goo edit
 font = ImageFont.truetype("comic-sans.ttf", 40)
@@ -24,6 +24,12 @@ def text_prep(message):
     return message
 
 
+def sentiment_score(text):
+    analyzer = vader.SentimentIntensityAnalyzer()
+    score = analyzer.polarity_scores(text)
+    return score
+
+
 class TextPlugins(Plugin):
     @Plugin.command('ping')
     def on_ping(self, event):
@@ -38,3 +44,15 @@ class TextPlugins(Plugin):
     def on_gooedit(self, event):
         text_add(event.msg.content)
         return event.msg.reply(attachment='../img/gootext.png')
+    
+    @Plugin.command('score')
+    def on_score(self, event):
+        '''
+        takes a message sent from a user and returns the score it got from the vader sentiment spectrum
+        
+        needs to be made more human readable and maybe parsed into other things.
+        '''
+        score = sentiment_score(event.msg.content)
+
+        return event.msg.reply(f"The score for that message is {score['compound']} !!!")
+
