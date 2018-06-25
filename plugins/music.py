@@ -1,4 +1,4 @@
-from saveDataHandler import (in_voice_channels,
+from .saveDataHandler import (in_voice_channels,
                              save_voice_channel,
                              delete_voice_channel)
 from disco.bot import Bot, Plugin
