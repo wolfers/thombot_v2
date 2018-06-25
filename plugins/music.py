@@ -107,9 +107,7 @@ class MusicPlugin(Plugin):
             return event.msg.reply(
                 'You have chosen. It can never be undone. (unless you use the deleteVoiceChannel command)'
             )
-        return event.msg.reply(
-            'A channel has already been designated for voice commands! Use deleteVoiceChannel command to reset the channel'
-        )
+        return event.msg.reply('A channel has already been designated for voice commands! Use deleteVoiceChannel command to reset the channel')
 
     @Plugin.command('deleteVoiceChannel')
     def on_deleteVoiceChannel(self, event):
