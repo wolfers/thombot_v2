@@ -2,3 +2,4 @@ __pycache__/
 *.py[cod]
 discord_tokens.py
 .idea/
+config.json
