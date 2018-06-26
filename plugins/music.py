@@ -8,6 +8,17 @@ from disco.voice.playable import YoutubeDLInput, BufferedOpusEncoderPlayable, Op
 from disco.voice.client import VoiceException
 
 
+'''
+very broken, does some funky stuff, needs some work for sure.
+used kill while connected ot voice channel and now the bot wont rejoin any channels, it thinks it's alreayd playing something.
+have yet to try actually playing music.
+find reason for kill being funky and for leave also being weird.
+
+blep got an error with an opus object, either it didn't find the file correctly, or it isn't reading it right, it's hard to tell
+probably not reading it right sinc eit gave me an object error, but the bot was having some trouble reading files from that location with the pictures
+it also did not leave the voice channel even though it got an error, probably need to amke sure the and add some try except clauses to make sure things get done
+'''
+
 class MusicPlugin(Plugin):
     def load(self, ctx):
         super(MusicPlugin, self).load(ctx)
@@ -95,21 +106,15 @@ class MusicPlugin(Plugin):
         player.client.ws.sock.shutdown()
         return event.msg.reply("hope you enjoyed my beatiful noises!")
 
+    '''
+    needs to be fixed, user is not a valid msg attribute, maybe try member or something
+    '''
     @Plugin.command('addVoiceChannel')
     def on_addVoiceChannel(self, event):
         result = save_voice_channel(event.guild.id, event.msg.user.voice_id)
         if result is True:
             return event.msg.reply('You have chosen. It can never be undone. (unless you use the deleteVoiceChannel command)')
         return event.msg.reply('Already a part of a channel! Use deleteVoiceChannel command to reset the channel')
-
-    '''
-    fix this I broke it at some point :c
-    '''
-    @Plugin.command('deleteVoiceChannel')
-    def on_deleteVoiceCHannel(self, event):
-        return event.msg.reply(
-            'A channel has already been designated for voice commands! Use deleteVoiceChannel command to reset the channel'
-        )
 
     @Plugin.command('deleteVoiceChannel')
     def on_deleteVoiceChannel(self, event):

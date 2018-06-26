@@ -7,6 +7,12 @@ font = ImageFont.truetype("comic-sans.ttf", 40)
 
 #images = '~/thombot_v2/pictures/'
 
+
+'''
+gooedit did not work. it seems to have taken the file paths, but it sent nothing to the server
+have not checked the file to see if it says the right thing
+using attatchment= gave an error where things are too large or something, current way just doesn't send the image.
+'''
 #draws the message onto blankgoo.png and then saves the new image to gootext.png
 def text_add(message):
     with Image.open('./pictures/blankgoo.png') as img:
