@@ -45,7 +45,7 @@ class TextPlugins(Plugin):
     @Plugin.command('gooedit')
     def on_gooedit(self, event):
         text_add(event.msg.content)
-        return event.msg.reply(attachment=images+'gootext.png')
+        return event.msg.reply(attachments=[images+'gootext.png'])
     
     @Plugin.command('score')
     def on_score(self, event):
