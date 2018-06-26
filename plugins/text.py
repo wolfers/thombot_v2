@@ -9,11 +9,11 @@ font = ImageFont.truetype("comic-sans.ttf", 40)
 
 #draws the message onto blankgoo.png and then saves the new image to gootext.png
 def text_add(message):
-    with Image.open('/pictures/blankgoo.png') as img:
+    with Image.open('./pictures/blankgoo.png') as img:
         draw = ImageDraw.Draw(img)
         to_add = text_prep(message)
         draw.text((420,150), to_add, fill=(0,0,0,0), font=font)
-        img.save('/pictures/gootext.png')
+        img.save('./pictures/gootext.png')
     
 #preps the message to be added to the image using /n
 def text_prep(message):
@@ -45,7 +45,7 @@ class TextPlugins(Plugin):
     @Plugin.command('gooedit')
     def on_gooedit(self, event):
         text_add(event.msg.content)
-        return event.msg.reply(attachments=['/pictures/gootext.png'])
+        return event.msg.reply(attachments=['./pictures/gootext.png'])
     
     @Plugin.command('score')
     def on_score(self, event):
