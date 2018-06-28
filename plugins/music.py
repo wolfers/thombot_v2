@@ -85,7 +85,9 @@ class MusicPlugin(Plugin):
     def on_kill(self, event):
         if in_voice_channels(event.guild.id, event.msg.channel) is False:
             return event.msg.reply('Can\'t do voice commands here!')
-        self.get_player(event.guild.id).client.ws.sock.shutdown()
+        player = self.get_player(event.guild.id)
+        player.disconnect()
+        player.client.ws.sock.shutdown()
         del self.guilds[event.guild.id]
 
     '''
