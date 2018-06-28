@@ -112,8 +112,11 @@ class MusicPlugin(Plugin):
             return event.msg.reply(f"sorry, no dumb noises today: {e}")
 
         player = Player(client)
-        item = OpusFilePlayable('../sounds/op.opus').pipe(BufferedOpusEncoderPlayable)
-        player.play(item).complete.wait()
+        try:
+            item = OpusFilePlayable('../sounds/op.opus').pipe(BufferedOpusEncoderPlayable)
+            player.play(item).complete.wait()
+        except:
+            pass
         player.disconnect()
         player.client.ws.sock.shutdown()
         return event.msg.reply("hope you enjoyed my beatiful noises!")
