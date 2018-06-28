@@ -2,6 +2,8 @@ from disco.bot import Plugin
 from PIL import ImageFont, Image, ImageDraw
 from nltk.sentiment import vader
 import os
+import requests
+import random
 
 #set font for goo edit
 font = ImageFont.truetype("comic-sans.ttf", 40)
@@ -10,9 +12,8 @@ font = ImageFont.truetype("comic-sans.ttf", 40)
 
 
 '''
-gooedit did not work. it seems to have taken the file paths, but it sent nothing to the server
-have not checked the file to see if it says the right thing
-using attatchment= gave an error where things are too large or something, current way just doesn't send the image.
+getting a too many values to unpack (expected 4) error, no idea how to fix it.
+looks like a problem in requests module so not sure waht to do there
 '''
 #draws the message onto blankgoo.png and then saves the new image to gootext.png
 def text_add(message):
@@ -65,3 +66,25 @@ class TextPlugins(Plugin):
 
         return event.msg.reply(f"The score for that message is {score['compound']} !!!")
 
+    @Plugin.command('cat')
+    def on_cat(self, event):
+        ran_cat_link = random.choice(['http://thecatapi.com/api/images/get', 'http://random.cat/meow'])
+        if ran_cat_link == 'http://random.cat/meow':
+            ran_cat = requests.get(ran_cat_link).json()["file"]
+        else:
+            ran_cat = requests.get(ran_cat_link).url
+        return event.msg.reply(ran_cat)
+
+    @Plugin.command('mission')
+    def on_mission(self, event):
+        return event.msg.reply(attachment=os.path.join('pictures/thom_stargazer.jpg'))
+    
+    @Plugin.command('skeleton')
+    def on_skeleton(self, event):
+        skeleton = 'skeleton' + str(random.randint(1,19)) + '.jpg'
+        return event.msg.reply(attachment=os.path.join('pictures/skeletons/') + skeleton)
+
+    @Plugin.command('dog')
+    def on_dog(self, event):
+        return event.msg.reply(requests.get('https://random.dog/woof.json').json()['url'])
+        
