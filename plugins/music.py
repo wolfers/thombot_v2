@@ -11,17 +11,8 @@ from disco.voice.client import VoiceException
 
 
 '''
-very broken, does some funky stuff, needs some work for sure.
-used kill while connected ot voice channel and now the bot wont rejoin any channels, it thinks it's alreayd playing something.
-have yet to try actually playing music.
-find reason for kill being funky and for leave also being weird.
--------------------------------------------------------------------
-added the del guilds command into the leave and kill command themselves instead of in the join one. Not sure if it will work ok that way
-should be able to, but I don't know if I need the wait command for it to work properly
-
 blep got an error with an opus object, either it didn't find the file correctly, or it isn't reading it right, it's hard to tell
-probably not reading it right sinc eit gave me an object error, but the bot was having some trouble reading files from that location with the pictures
-it also did not leave the voice channel even though it got an error, probably need to amke sure the and add some try except clauses to make sure things get done
+probably not reading it right since it gave me an object error, but the bot was having some trouble reading files from that location with the pictures
 '''
 
 class MusicPlugin(Plugin):
