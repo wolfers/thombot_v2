@@ -8,9 +8,6 @@ import random
 #set font for goo edit
 font = ImageFont.truetype("comic-sans.ttf", 40)
 
-#images = '~/thombot_v2/plugins/pictures/'
-
-
 '''
 getting a too many values to unpack (expected 4) error, no idea how to fix it.
 looks like a problem in requests module so not sure waht to do there
@@ -87,4 +84,3 @@ class TextPlugins(Plugin):
     @Plugin.command('dog')
     def on_dog(self, event):
         return event.msg.reply(requests.get('https://random.dog/woof.json').json()['url'])
-        
