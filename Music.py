@@ -90,17 +90,15 @@ class Music:
         try:
             await self.create_voice_client(channel)
         except discord.InvalidArgument:
-            await self.bot.say('This is not a voice channel, baka onii-chan')
+            await self.bot.say('This is not a voice channel')
         except discord.ClientException:
-            await self.bot.say('Already in a voice channel, b-baka!!')
-        else:
-            await self.bot.say('ready to take it all, onii-chan')
+            await self.bot.say("I'm already in a voice channel")
 
     @commands.command(pass_context=True, no_pm=True)
     async def summon(self, ctx):
         summoned_channel = ctx.message.author.voice_channel
         if summoned_channel is None:
-            await self.bot.say("You're not in a voice channel, bakaaaaaaaa")
+            await self.bot.say("You're not in a voice channel")
             return False
 
         state = self.get_voice_state(ctx.message.server)
@@ -202,7 +200,7 @@ class Music:
             state.player.stop()
         try:
             state.audio_player.cancel()
-            del self.voice_states[server.id]
+            del self.voice_states[ctx.channel.server.id]
             await state.voice.disconnect()
         except:
             pass
