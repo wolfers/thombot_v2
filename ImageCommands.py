@@ -51,9 +51,6 @@ class ImageCommands:
         '''
         posts a random image of harambe from the images folder
         '''
-        harambe_pics = ('Harambe.jpg', 'Harambe2.jpg', 'Harambe3.jpg',
-                        'Harambe4.jpg', 'Harambe5.jpg', 'Harambe6.jpg',
-                        'Harambe7.jpg', 'Harambe8.jpg')
         harambe = 'Harambe' + str(random.randint(1,8)) + '.jpg'
         await self.bot.send_file(ctx.message.channel,
                                  '/home/ubuntu/thombot_v2/pictures/harambe/' +
