@@ -1,9 +1,7 @@
 from discord.ext import commands
 import discord
 import re
-
-# contains token to log in the bot
-from discord_tokens import *
+from discord_tokens import token
 
 if not discord.opus.is_loaded():
     discord.opus.load_opus('/usr/lib/libopus.so')
@@ -12,7 +10,6 @@ description = """
     I am thom-bot! I'm here to make things more dumb!!!
     """
 
-# the extensions that contain all the bot commands
 startup_extensions = ["ImageCommands",
                       "OtherCommands",
                       "Music"]
@@ -28,19 +25,25 @@ async def on_ready():
     print('-----')
 
 
-# Welcome new members that join the server(does not work right now)
 @bot.event
 async def on_member_join(member):
+    '''
+    Welcomes any new users to the server.
+    '''
     bot.say('{} welcome {} to the server!'.format(member.roles[0].mention, member.mention))
 
 
 @bot.event
 async def on_message(message):
+    '''
+    checks if the member uses owo in their message and then responds
+    in the correct manor.
+    '''
     if re.search(r'( )owo( )', message.content) or message.content.startswith('owo'):
-        await bot.send_message(message.channel, '*notices bulge* What\'s this?')
+        await bot.send_message(message.channel, "*notices bulge* What's this?")
     await bot.process_commands(message)
 
-# load the extension files that contain the commands for the bot
+
 if __name__ == "__main__":
     for extension in startup_extensions:
         try:
