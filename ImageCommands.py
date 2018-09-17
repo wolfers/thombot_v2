@@ -122,7 +122,7 @@ class ImageCommands:
         '''
         skeleton = 'skeleton' + str(random.randint(1,19)) + '.jpg'
         await self.bot.send_file(ctx.message.channel,
-                                 '/home/ubuntu/thombot_v2/pictures/skeletons/' +
+                                 './pictures/skeletons/' +
                                   skeleton)
 
 
