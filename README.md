@@ -46,6 +46,5 @@ To Do
 -----
 
 + fix the problem with the bot getting stuck in voice commands
-+ update image editing code
 + add function to generate a story from an LSTM trained on various things(multiple lstms or trained on multiple things)
 

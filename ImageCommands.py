@@ -1,7 +1,9 @@
 from discord.ext import commands
 import random
 import requests
+import os
 
+cwd = os.getcwd()
 
 class ImageCommands:
     def __init__(self, bot):
@@ -53,7 +55,7 @@ class ImageCommands:
         '''
         harambe = 'Harambe' + str(random.randint(1,8)) + '.jpg'
         await self.bot.send_file(ctx.message.channel,
-                                 '/home/ubuntu/thombot_v2/pictures/harambe/' +
+                                 cwd + '/pictures/harambe/' +
                                  harambe)
 
 
@@ -63,7 +65,7 @@ class ImageCommands:
         aliens are real and they did everything cool in history
         '''
         await self.bot.send_file(ctx.message.channel,
-                                 '/home/ubuntu/thombot_v2/pictures/aliens.png')
+                                 cwd + '/pictures/aliens.png')
 
 
     @commands.command(pass_context=True)
@@ -72,7 +74,7 @@ class ImageCommands:
         gremlin dva image
         '''
         await self.bot.send_file(ctx.message.channel,
-                                 '/home/ubuntu/thombot_v2/pictures/dva.png')
+                                 cwd + '/pictures/dva.png')
 
 
     @commands.command(pass_context=True)
@@ -81,7 +83,7 @@ class ImageCommands:
         mission statement of thom stargazer
         '''
         await self.bot.send_file(ctx.message.channel,
-                                 '/home/ubuntu/thombot_v2/pictures/thom_stargazer.jpg')
+                                 cwd + '/pictures/thom_stargazer.jpg')
 
 
     @commands.command(pass_context=True)
@@ -90,7 +92,7 @@ class ImageCommands:
         shoot your goo my dude
         '''
         await self.bot.send_file(ctx.message.channel,
-                                 '/home/ubuntu/thombot_v2/pictures/goo.jpg')
+                                 cwd + '/pictures/goo.jpg')
 
 
     @commands.command(pass_context=True)
@@ -100,7 +102,7 @@ class ImageCommands:
         distorted shoot your goo image
         '''
         await self.bot.send_file(ctx.message.channel,
-                                 '/home/ubuntu/thombot_v2/pictures/goo2.png')
+                                 cwd + '/pictures/goo2.png')
 
 
     @commands.command()
@@ -119,7 +121,7 @@ class ImageCommands:
         '''
         skeleton = 'skeleton' + str(random.randint(1,19)) + '.jpg'
         await self.bot.send_file(ctx.message.channel,
-                                 '/home/ubuntu/thombot_v2/pictures/skeletons/' +
+                                 cwd + '/pictures/skeletons/' +
                                   skeleton)
 
 

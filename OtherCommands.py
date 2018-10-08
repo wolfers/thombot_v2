@@ -83,5 +83,6 @@ class OtherCommands:
         await self.bot.send_file(ctx.message.channel, "/home/ubuntu/thombot_v2/pictures/gootext.png")
 
 
+
 def setup(bot):
     bot.add_cog(OtherCommands(bot))
