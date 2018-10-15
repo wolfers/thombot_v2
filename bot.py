@@ -1,7 +1,12 @@
 from discord.ext import commands
 import discord
 import re
-from discord_tokens import token
+import os
+
+cwd = os.getcwd()
+
+with open(cwd + '/token.txt', 'r') as f:
+    token = f.read()
 
 if not discord.opus.is_loaded():
     discord.opus.load_opus('/usr/lib/libopus.so')
@@ -51,5 +56,5 @@ if __name__ == "__main__":
         except:
             pass
 
-# run the bot
+
 bot.run(token)

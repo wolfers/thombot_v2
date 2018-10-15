@@ -1,6 +1,9 @@
 import discord
 from discord.ext import commands
 from ImageText import textadd
+import os
+
+cwd = os.getcwd()
 
 
 class OtherCommands:
@@ -32,7 +35,7 @@ class OtherCommands:
         '''
         for role in ctx.message.author.roles:
             if role.name == 'bot friend':
-                avatar = open('/home/ubuntu/thombot_v2/pictures/avatar.jpg', 'rb')
+                avatar = open(cwd + '/pictures/avatar.jpg', 'rb')
                 await self.bot.edit_profile(avatar=avatar.read())
                 break
         else:
@@ -80,7 +83,7 @@ class OtherCommands:
         copy of the shoot your goo image then posts the iamge.
         '''
         textadd(ctx.message.content[9:])
-        await self.bot.send_file(ctx.message.channel, "/home/ubuntu/thombot_v2/pictures/gootext.png")
+        await self.bot.send_file(ctx.message.channel, cwd + "/pictures/gootext.png")
 
 
 
