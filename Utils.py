@@ -1,6 +1,7 @@
 from PIL import ImageFont, Image, ImageDraw
 import os
 import discord
+import psycopg2
 
 
 font = ImageFont.truetype("comic-sans.ttf", 40)
@@ -38,6 +39,13 @@ def textprep(message):
     text = "\n".join(line_list)
     return text
 
+def connect_to_db():
+    try:
+        conn = psycopg2.connect("dbname='gift' user='thombot' host='localhost' password='thombot'")
+    except:
+        print("Was unable to connect to the database")
+        conn = False
+    return conn
 
 def create_gift_embed(title, url, description, img):
     '''
@@ -48,10 +56,13 @@ def create_gift_embed(title, url, description, img):
     gift_embed.set_image(url=img)
     return gift_embed
 
+def get_gift(user):
+    conn = connect_to_db()
+    cur = conn.cursor()
+    gift = cur.execute("""SELECT gift FROM user-gifts WHERE user = {};""".format(user))
+    print("gift")
+
 
 if __name__ == "__main__":
     #testing
-    text = "this text is pretty long, I want to see it go off the bottom"
-    textadd(text)
-    with Image.open(cwd + "/pictures/gootext.png") as img:
-        img.show()
+    get_gift(12345)
