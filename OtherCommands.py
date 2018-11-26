@@ -130,7 +130,7 @@ class OtherCommands:
         wip christmas command
         will give a random persent to whoever invokes the command
         '''
-        gift = random.random(gift_list)
+        gift = random.choice(gift_list)
         gift_embed = create_gift_embed(gift["title"], gift["url"],
                                        gift["description"])
         await self.bot.send_message(ctx.message.channel, embed=gift_embed)

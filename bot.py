@@ -8,8 +8,6 @@ cwd = os.getcwd()
 with open(cwd + '/token.txt', 'r') as f:
     token = f.read()
 
-print(token)
-
 if not discord.opus.is_loaded():
     discord.opus.load_opus('/usr/lib/libopus.so')
 
@@ -59,4 +57,4 @@ if __name__ == "__main__":
             pass
 
 
-bot.run(token)
+bot.run(token[:-2])
