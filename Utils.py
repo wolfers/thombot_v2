@@ -39,12 +39,13 @@ def textprep(message):
     return text
 
 
-def create_gift_embed(title, url, description):
+def create_gift_embed(title, url, description, img):
     '''
     creates the embed for christmas gifts
     '''
     gift_embed = discord.Embed(title=title, type="rich", 
                         description=description, url=url)
+    gift_embed.set_image(url=img)
     return gift_embed
 
 
