@@ -60,7 +60,7 @@ def get_gift(user):
     conn = connect_to_db()
     cur = conn.cursor()
     gift = cur.execute("""SELECT gift FROM user_gifts WHERE user_id = {};""".format(user))
-    print("gift")
+    print(gift)
 
 
 if __name__ == "__main__":
