@@ -1,5 +1,6 @@
 from PIL import ImageFont, Image, ImageDraw
 import os
+import discord
 
 
 font = ImageFont.truetype("comic-sans.ttf", 40)
@@ -36,6 +37,16 @@ def textprep(message):
     line_list.append(line)
     text = "\n".join(line_list)
     return text
+
+
+def create_gift_embed(title, url, description):
+    '''
+    creates the embed for christmas gifts
+    '''
+    gift_embed = discord.Embed(title=title, type="rich", 
+                        description=description, url=url)
+    return gift_embed
+
 
 if __name__ == "__main__":
     #testing
