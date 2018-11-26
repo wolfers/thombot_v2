@@ -59,7 +59,7 @@ def create_gift_embed(title, url, description, img):
 def get_gift(user):
     conn = connect_to_db()
     cur = conn.cursor()
-    gift = cur.execute("""SELECT gift FROM user_gifts WHERE user = {};""".format(user))
+    gift = cur.execute("""SELECT gift FROM user_gifts WHERE user == {};""".format(user))
     print("gift")
 
 
