@@ -98,12 +98,9 @@ def add_gifts_to_db(gift_list):
     conn = connect_to_db()
     cur = conn.cursor()
     for gift in gift_list:
-        try:
-            cur.execute("""INSERT INTO gifts(title, url, img, description) VALUES({}, {}, {}, {});""".format(gift['title'], gift['url'],
-                                                                                                            gift['img'], gift['description']))
-            print(gift['title'], "added")
-        except:
-            pass
+        cur.execute("""INSERT INTO gifts(title, url, img, description) VALUES({}, {}, {}, {});""".format(gift['title'], gift['url'],
+                                                                                                        gift['img'], gift['description']))
+        print(gift['title'], "added")
     conn.close()
     
 
