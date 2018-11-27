@@ -98,7 +98,7 @@ def add_gifts_to_db(gift_list):
     conn = connect_to_db()
     cur = conn.cursor()
     for gift in gift_list:
-        cur.execute("""INSERT INTO gifts(title, url, img, description) VALUES("{}", "{}", "{}", "{}");""".format(gift['title'], gift['url'],
+        cur.execute("""INSERT INTO gifts(title, url, img, description) VALUES(%s, %s, %s, %s);""", (gift['title'], gift['url'],
                                                                                                         gift['img'], gift['description']))
         print(gift['title'], "added")
     conn.close()
@@ -108,7 +108,7 @@ def add_gifts_to_db(gift_list):
 if __name__ == "__main__":
     #testing
     gift_list = [
-        {"title": 'Pet Collar', "url": "https://amzn.to/2r4SvvR", "img": "https://images-na.ssl-images-amazon.com/images/I/51FGmeCJvbL._SX300_QL70_.jpg", "description": "Get a nice collar for your favorite pet. You'll love to see them wear it around the house during the holidays!"},
+        {"title": 'Pet Collar', "url": "https://amzn.to/2r4SvvR", "img": "https://images-na.ssl-images-amazon.com/images/I/51FGmeCJvbL._SX300_QL70_.jpg", "description": "Get a nice collar for your favorite \"pet\". You'll love to see them wear it around the house during the holidays!"},
         {"title": "Golden Garbage Bags", "url": "https://amzn.to/2RbONfd", "img": "https://images-na.ssl-images-amazon.com/images/I/415E4uTDcaL._SY300_QL70_.jpg", "description": "These garbage bags are probably made of solid gold! Waste disposal fit for a king."},
         {"title": "Log Pillow", "url": "https://amzn.to/2RdlokR", "img": "https://images-na.ssl-images-amazon.com/images/I/41ucR69UX%2BL._SX300_QL70_.jpg", "description": "Thought you would love this log pillow since you hate going outside but nature is still important."},
         {"title": "Lock Pick Kit", "url": "https://amzn.to/2FQcatk", "img": "https://images-na.ssl-images-amazon.com/images/I/51pcZ%2BvghHL._SY300_QL70_.jpg", "description": "Instead of putting thought into getting you a nice gift, I got you this lockpicking set! I figure you can jsut go steal whatever you want, I got you the gift of anything that's secured using a simple lock!"},
