@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from Utils import textadd, create_gift_embed, get_gift
+from Utils import textadd, create_gift_embed, get_gift, remove_gift
 import os
 import random
 
@@ -147,7 +147,21 @@ class OtherCommands:
         if created_gift == True:
             await self.bot.say("you've already got a gift!")
         await self.bot.send_message(ctx.message.channel, embed=gift_embed)
-
+    
+    @commands.command(pass_context=True)
+    async def regift(self, ctx):
+        '''
+        if a user has a gift, they will be able to gift it to someone else on the server
+        does not currently give the gift away, just has some flavor text and removes the users gift
+        '''
+        gift_recipient = ctx.message.mentions[0].mention
+        gift, created_gift = get_gift(ctx.message.author)
+        if created_gift == True:
+            await self.bot.say("Not sure why, but you didn't have a gift when you tried to regift. I went ahead and gave you {} and then regifted it to {}".format(gift['title'], gift_recipient))
+        else:
+            await self.bot.say("regifted {} to {}!".format(gift['title'], gift_recipient))
+        remove_gift(ctx.message.author)
+        await self.bot.say("currently doesn't actually force them to take a gift, but you don't have a gift anymore.")
 
 def setup(bot):
     bot.add_cog(OtherCommands(bot))
