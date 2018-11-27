@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from Utils import textadd, create_gift_embed
+from Utils import textadd, create_gift_embed, get_gift
 import os
 import random
 
@@ -132,6 +132,20 @@ class OtherCommands:
         gift = random.choice(gift_list)
         gift_embed = create_gift_embed(gift["title"], gift["url"],
                                        gift["description"], gift['img'])
+        await self.bot.send_message(ctx.message.channel, embed=gift_embed)
+    
+    @commands.command(pass_context=True)
+    async def gift(self, ctx):
+        '''
+        will give a user a gift if they don't have one
+        If they do have one, it will show them the gift and tell them they already had one.
+        '''
+        #add the user into this function call
+        gift, created_gift = get_gift(ctx.message.author)
+        gift_embed = create_gift_embed(gift["title"], gift["url"],
+                                       gift["description"], gift['img'])
+        if created_gift == True:
+            await self.bot.say("you've already got a gift!")
         await self.bot.send_message(ctx.message.channel, embed=gift_embed)
 
 
