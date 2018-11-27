@@ -42,7 +42,7 @@ def textprep(message):
 
 def connect_to_db():
     try:
-        conn = psycopg2.connect("dbname='gift' user='thombot' host='localhost' password='thombot'".format(dbname))
+        conn = psycopg2.connect("dbname='gift' user='thombot' host='localhost' password='thombot'")
     except:
         print("Was unable to connect to the database")
         conn = False
