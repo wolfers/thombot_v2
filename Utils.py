@@ -131,4 +131,4 @@ if __name__ == "__main__":
         {"title": "Dancing Pole", "url": "https://amzn.to/2r29xdS", "img": "https://images-na.ssl-images-amazon.com/images/I/51hj4lWqlQL._SY300_QL70_.jpg", "description": "Uncle Thom-bot thinks you'd be REALLY good at this."},
         {"title": "Aluminum Wire", "url": "https://amzn.to/2RfQ44U", "img": "https://images-na.ssl-images-amazon.com/images/I/51mHjBYsT0L._SY300_QL70_.jpg", "description": "It's got lots of uses! hitting people, bondage, making daigrams in the dirt, and uh, making fursuits, probably."}
     ]
-    add_gifts_to_db
+    add_gifts_to_db(gift_list)
