@@ -102,6 +102,8 @@ def add_gifts_to_db(gift_list):
             cur.execute("""INSERT INTO gifts(title, url, img, description) VALUES({}, {}, {}, {});""".format(gift['title'], gift['url'],
                                                                                                             gift['img'], gift['description']))
             print(gift['title'], "added")
+        except:
+            pass
     conn.close()
     
 
