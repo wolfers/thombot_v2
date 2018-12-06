@@ -14,7 +14,7 @@ from pony import orm
 vday_start = ''' 
     Hello @everyone! Welcome to the 2019 Thom Stargazer valentines day event! Type "!vday_join" to have your name entered
     entered into the pool of eligable valentines. The day before valentines day, your match will be posted.
-    From there, it's up to you. ;) Use "!vday_info" to get some more infomration sent to you in a dm.
+    From there, it's up to you. ;) If you have any questions dm <@88838960175910912>
 '''
 
 vday_info = '''
@@ -41,13 +41,43 @@ class User(db.Entity):
     user_guild = orm.Required(str)
 
 class GuildStatus(db.Entity):
-    guild_id = orm.Primary_Key(str)
-    active = orm.Required(bool)
+    guild = orm.Primary_Key(str)
+    status = orm.Required(str)
 
 
 db = orm.Database()
 db.bind(provider='postgres', user=db_user, password=db_password, host=db_host, database=db_database)
 db.generate_mapping(create_tables=True)
+
+
+@orm.db_session
+def check_guild(guild):
+    '''
+    checks and returns the status of the guild as a str
+    if it is active it returns active
+    if it is not active it returns ended
+    if it is not found in the database it returns missing
+    '''
+    if GuildStatus.exists(guild=guild):
+        return GuildStatus.get(guild=guild).status
+    else:
+        return "missing"
+
+
+@orm.db_sesion
+def update_guild(guild, status="active"):
+    '''
+    updates the guilds status in the database.
+    can be either active or ended
+    '''
+    statuses = ["active", "ended"]
+    if status not in statuses:
+        print("did not udate, invalid status")
+        return None
+    if GuildStatus.exists(guild=guild):
+        GuildStatus.status = status
+    else:
+        GuildStatus(guild=guild, status=status)
 
 
 @orm.db_session
@@ -63,13 +93,15 @@ def check_user(user_id, user_guild):
 def store_user(user_id, user_guild):
     '''
     Stores the user in the database using their user id and the guild id.
-    returns nothing
     '''
     User(user_id=user_id, user_guild=user_guild)
 
 
 @orm.db_session
 def get_users_by_guild(guild):
+    '''
+    get a list of all the user ids for the guild
+    '''
     return User.select(u.user_id for u in User if u.user_guid == guild)[:]
 
 
@@ -81,7 +113,7 @@ def get_matches(guild):
     users = get_users_by_guild(guild)
     matches = []
     if len(users) % 2 != 0:
-        users.append("thombot")
+        users.append("240932500728315904")
     for _ in range(len(users)):
         shuffle(users)
         user1 = users.pop()
@@ -94,7 +126,6 @@ def get_matches(guild):
 class ValentinesDay2019:
     def init(self, bot):
         self.bot = bot
-        self.active = False
 
     @commands.command(pass_context=True)
     async def vday_setup(self, ctx):
@@ -102,31 +133,32 @@ class ValentinesDay2019:
         will start the vday submission process.
         will let people isgn up to recieve a valentine
         '''
-        self.active = True
+        guild = ctx.message.server
+        status = check_guild(guild)
+        if status == "active":
+            self.bot.say("This guild is already part of the event! no need to start it again!")
+        else:
+            update_guild(guild)
         await self.bot.say(vday_start)
-    
-    @commands.command(pass_context=True)
-    async def vday_info(self, ctx):
-        '''
-        sends a dm to the users that sent this message explaining some things about
-        the valentines day event
-        '''
-        #figure out how to actually send things to users in a dm when I get internet again
-        pass
 
     @commands.command(pass_context=True)
     async def vday_join(self, ctx):
         '''
         adds the user to the database.
         '''
-        #also need to figure out the exact way to get the guild so I can make it on a server basis.
         user = ctx.message.author
-        guild = ctx.message.guild_id
-        if check_user(user, guild) == True:
-            self.bot.say("You've already joined!")
+        guild = ctx.message.server
+        status = check_guild(guild)
+        if status == "ended":
+            self.bot.say("This server event has already ended!")
+        elif status == "missing":
+            self.bot.say("This event hasn't started yet! There will be an announcment when it has!")
         else:
-            store_user(user, guild)
-            await self.bot.say("You've been added to the pool of valentines!")
+            if check_user(user, guild) == True:
+                self.bot.say("You've already joined!")
+            else:
+                store_user(user, guild)
+                await self.bot.say("You've been added to the pool of valentines!")
     
     @commands.command(pass_context=True)
     async def vday_matches(self, ctx):
@@ -136,12 +168,15 @@ class ValentinesDay2019:
         if there is an odd number of users it includes thombot to even it out
         displays the matches to the discord channel
         '''
-        guild = ctx.message.guild_id
+        guild = ctx.message.server
         matches = get_matches(guild)
-        self.bot.say("It's time to announce the winners and losers of the valentines day contest! The pairs will be below:")
-        for m in matches:
-            self.bot.say("<@{m[0]}> :heart: <@{m[1]}>")
-        self.bot.say("Hope you had fun! Enjoy your valentines!")
+        if check_guild(guild) == "active":
+            self.bot.say("It's time to announce the winners and losers of the valentines day contest! The pairs will be below:")
+            for m in matches:
+                self.bot.say("<@{m[0]}> :heart: <@{m[1]}>")
+            self.bot.say("Hope you had fun! Enjoy your valentines!")
+        else:
+            self.bot.say("This server isn't currently active in the event.")
 
 
 def setup(bot):
