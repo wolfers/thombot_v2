@@ -102,7 +102,7 @@ class Christmas_2018:
         gift_embed = create_gift_embed(gift["title"], gift["url"],
                                     gift["description"], gift['img'])
         if created_gift == True:
-            await self.bot.say("you've already got a gift!")
+            await self.bot.say("you'v1e already got a gift!")
         await self.bot.send_message(ctx.message.channel, embed=gift_embed)
     
     @commands.command(pass_context=True)
