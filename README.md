@@ -1,5 +1,11 @@
+# changing everything over to rewrite
+I am finally taking the time to make everything in the rewrite.
+
+Hopefully I'll be able to move everyhting over and get it all working and then merge it with master.
+
+
 # Bot created for the Thom Stargazer Memorial Guild.
-### created for discord using the discord.py module
+### created for discord using discord.py
 
 This is a small bot made for me and my friends. Not meant for any other servers.
 
