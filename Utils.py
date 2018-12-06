@@ -1,8 +1,6 @@
 from PIL import ImageFont, Image, ImageDraw
 import os
 import discord
-import psycopg2
-import random
 
 
 font = ImageFont.truetype("comic-sans.ttf", 40)
