@@ -1,17 +1,18 @@
 from discord.ext import commands
+import discord
 import random
 import requests
 import os
 
-cwd = os.getcwd()
+cwd = os.getcwd() 
 
-class ImageCommands:
+class imageCommands:
     def __init__(self, bot):
         self.bot = bot
 
 
-    @commands.command(pass_context=True)
-    async def cat(self):
+    @commands.command()
+    async def cat(self, ctx):
         '''
         Grabs a random cat iamge from one of the two apis and
         sends it to the chat
@@ -22,11 +23,11 @@ class ImageCommands:
             ran_cat = requests.get(ran_cat_link).json()["file"]
         else:
             ran_cat = requests.get(ran_cat_link).url
-        await self.bot.say(ran_cat)
+        await ctx.send(ran_cat)
 
 
-    @commands.command(pass_context=True)
-    async def nickelback(self):
+    @commands.command()
+    async def nickelback(self, ctx):
         '''
         posts a random nickleback song from the list
         list is expandable if needed
@@ -45,85 +46,82 @@ class ImageCommands:
                  'https://www.youtube.com/watch?v=FIjRo-gMlKE',
                  'https://www.youtube.com/watch?v=vt-UtzP1u1g')
         rand_song = random.choice(songs)
-        await self.bot.say(rand_song)
+        await ctx.send(rand_song)
 
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def harambe(self, ctx):
         '''
         posts a random image of harambe from the images folder
         '''
         harambe = 'Harambe' + str(random.randint(1,8)) + '.jpg'
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/harambe/' +
-                                 harambe)
+        harambe_file = discord.File(cwd + '/pictures/harambe/' + harambe)
+        await ctx.send(file=harambe_file)
 
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def aliens(self, ctx):
         '''
         aliens are real and they did everything cool in history
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/aliens.png')
+        alien_file = discord.File(cwd + '/pictures/aliens.png')
+        await ctx.send(file=alien_file)
 
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def dva(self, ctx):
         '''
         gremlin dva image
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/dva.png')
+        dva_file = discord.File(cwd + '/pictures/dva.png')
+        await ctx.send(file=dva_file)
 
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def mission(self, ctx):
         '''
         mission statement of thom stargazer
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/thom_stargazer.jpg')
+        mission_file= discord.File(cwd + '/pictures/thom_stargazer.jpg')
+        await ctx.send(file=mission_file)
 
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def goo(self, ctx):
         '''
         shoot your goo my dude
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/goo.jpg')
+        goo_file = discord.File(cwd + '/pictures/goo.jpg')
+        await ctx.send(file=goo_file)
 
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def goo2(self, ctx):
         '''
         shoot goo dude???
         distorted shoot your goo image
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/goo2.png')
+        goo2_file = discord.File(cwd + '/pictures/goo2.png')
+        await ctx.send(file=goo2_file)
 
 
     @commands.command()
-    async def dog(self):
+    async def dog(self, ctx):
         '''
         random dog in chat! sometiems posts videos
         '''
-        await self.bot.say(requests.get('https://random.dog/woof.json').json()['url'])
+        await ctx.send(requests.get('https://random.dog/woof.json').json()['url'])
 
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def skeleton(self, ctx):
         '''
         picks a random skeleton. very spooky
         happy halloween (or any day where you want a spoopy boi)
         '''
         skeleton = 'skeleton' + str(random.randint(1,19)) + '.jpg'
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/skeletons/' +
-                                  skeleton)
-
+        skeleton_file = discord.File(cwd + '/pictures/skeletons/' + skeleton)
+        await ctx.send(file=skeleton_file)
 
 def setup(bot):
-    bot.add_cog(ImageCommands(bot))
+    bot.add_cog(imageCommands(bot))

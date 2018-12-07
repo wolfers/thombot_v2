@@ -1,5 +1,11 @@
+# changing everything over to rewrite
+Taking the time to cahnge everything over to rewrite.
+Everything should be set up and ready to go toher tahn the music commands.
+I'll take the time to fix those soon.
+
+
 # Bot created for the Thom Stargazer Memorial Guild.
-### created for discord using the discord.py module
+### created for discord using discord.py
 
 This is a small bot made for me and my friends. Not meant for any other servers.
 

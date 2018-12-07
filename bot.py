@@ -1,7 +1,17 @@
 from discord.ext import commands
 import discord
+import asyncio
 import re
 import os
+import sys, traceback
+
+import logging
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 cwd = os.getcwd()
 
@@ -12,14 +22,22 @@ if not discord.opus.is_loaded():
     discord.opus.load_opus('/usr/lib/libopus.so')
 
 description = """
-    I am thom-bot! I'm here to make things more dumb!!!
+    I am thom-bot. Created by protonheart for the thom stargazer memorial conglomerate.
     """
 
-startup_extensions = ["ImageCommands",
-                      "OtherCommands",
-                      "Music"]
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('!'), description=description)
 
-bot = commands.Bot(command_prefix='!', description=description)
+initial_extentions = [#'holidaycogs.etc',
+                      'cogs.otherCommands',
+                      'cogs.imageCommands',
+                      'cogs.Music',]
+
+for extention in initial_extentions:
+    try:
+        bot.load_extension(extention)
+    except Exception as e:
+        print(f'Failed to load extention {extention}.', file=sys.stderr)
+        traceback.print_exc()
 
 
 @bot.event
@@ -28,33 +46,6 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('-----')
-
-
-@bot.event
-async def on_member_join(member):
-    '''
-    Welcomes any new users to the server.
-    '''
-    bot.say('{} welcome {} to the server!'.format(member.roles[0].mention, member.mention))
-
-
-@bot.event
-async def on_message(message):
-    '''
-    checks if the member uses owo in their message and then responds
-    in the correct manor.
-    '''
-    if re.search(r'( )owo( )', message.content) or message.content.startswith('owo'):
-        await bot.send_message(message.channel, "*notices bulge* What's this?")
-    await bot.process_commands(message)
-
-
-if __name__ == "__main__":
-    for extension in startup_extensions:
-        try:
-            bot.load_extension(extension)
-        except:
-            pass
-
+    await bot.change_presence(activity=discord.Game(name='christmas music'))
 
 bot.run(token[:-1])
