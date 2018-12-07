@@ -137,10 +137,10 @@ class valentinesDay2019:
         guild = ctx.guild.id
         status = check_guild(guild)
         if status == "active":
-            self.ctx.send("This guild is already part of the event! no need to start it again!")
+            ctx.send("This guild is already part of the event! no need to start it again!")
         else:
             update_guild(guild)
-        await self.ctx.send(vday_start)
+        await ctx.send(vday_start)
 
     @commands.command()
     @commands.guild()
@@ -152,15 +152,15 @@ class valentinesDay2019:
         guild = ctx.guild.id
         status = check_guild(guild)
         if status == "ended":
-            self.ctx.send("This server event has already ended!")
+            ctx.send("This server event has already ended!")
         elif status == "missing":
-            self.ctx.send("This event hasn't started yet! There will be an announcment when it has!")
+            ctx.send("This event hasn't started yet! There will be an announcment when it has!")
         else:
             if check_user(user, guild) == True:
-                self.ctx.send("You've already joined!")
+                ctx.send("You've already joined!")
             else:
                 store_user(user, guild)
-                await self.ctx.send("You've been added to the pool of valentines!")
+                await ctx.send("You've been added to the pool of valentines!")
     
     @commands.command(hidden=True)
     @commands.guild()
@@ -175,12 +175,12 @@ class valentinesDay2019:
         guild = ctx.guild.id
         matches = get_matches(guild)
         if check_guild(guild) == "active":
-            self.ctx.send("It's time to announce the winners and losers of the valentines day contest! The pairs will be below:")
+            ctx.send("It's time to announce the winners and losers of the valentines day contest! The pairs will be below:")
             for m in matches:
-                self.ctx.send("<@{m[0]}> :heart: <@{m[1]}>")
-            self.ctx.send("Hope you had fun! Enjoy your valentines!")
+                ctx.send("<@{m[0]}> :heart: <@{m[1]}>")
+            ctx.send("Hope you had fun! Enjoy your valentines!")
         else:
-            self.ctx.send("This server isn't currently active in the event.")
+            ctx.send("This server isn't currently active in the event.")
 
 def setup(bot):
     bot.add_cog(valentinesDay2019(bot))

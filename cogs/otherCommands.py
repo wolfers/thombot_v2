@@ -50,7 +50,7 @@ class otherCommands:
         posts the text into chat.
         you're cursed until you return it.
         '''
-        await self.ctx.send('RETURN THE SLAAAAB')
+        await ctx.send('RETURN THE SLAAAAB')
 
 
     @commands.command()
@@ -59,15 +59,16 @@ class otherCommands:
         posts the stfu filthy frank song
         might remove this in the future.
         '''
-        await self.ctx.send('https://youtu.be/OLpeX4RRo28')
+        await ctx.send('https://youtu.be/OLpeX4RRo28')
 
 
     @commands.command()
+    @commands.guild()
     async def ban(self, ctx):
         '''
         Actually for real "bans" someone from the server
         '''
-        await self.ctx.send('you\'ve been banned, {}!'.format(ctx.message.mentions[0].mention))
+        await ctx.send('you\'ve been banned, {}!'.format(ctx.message.mentions[0].mention))
 
 
     @commands.command()
@@ -75,7 +76,7 @@ class otherCommands:
         '''
         This will never be used.
         '''
-        await self.ctx.send('We impose order on the chaos of organic evolution. You exist because we allow it, and you will end because we demand it. ')
+        await ctx.send('We impose order on the chaos of organic evolution. You exist because we allow it, and you will end because we demand it. ')
 
 
     @commands.command()
@@ -85,8 +86,8 @@ class otherCommands:
         copy of the shoot your goo image then posts the iamge.
         '''
         textadd(ctx.message.content[9:])
-        gooedit_file = discord.File(cwd + "/pictures/gootext.png", "goo")
-        await self.ctx.send(file=gooedit_file)
+        gooedit_file = discord.File(cwd + "/pictures/gootext.png")
+        await ctx.send(file=gooedit_file)
 
 def setup(bot):
     bot.add_cog(otherCommands(bot))
