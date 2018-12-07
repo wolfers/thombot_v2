@@ -1,7 +1,7 @@
 # changing everything over to rewrite
-I am finally taking the time to make everything in the rewrite.
-
-Hopefully I'll be able to move everyhting over and get it all working and then merge it with master.
+Taking the time to cahnge everything over to rewrite.
+Everything should be set up and ready to go toher tahn the music commands.
+I'll take the time to fix those soon.
 
 
 # Bot created for the Thom Stargazer Memorial Guild.

@@ -3,6 +3,11 @@ import asyncio
 import discord
 import time
 
+'''
+This file will be updated at a later time.
+I'll look into rewriting it and changing some things when I rewrite this.
+'''
+
 
 class VoiceEntry:
     def __init__(self, message, player):

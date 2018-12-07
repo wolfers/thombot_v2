@@ -14,12 +14,12 @@ logger.addHandler(handler)
 
 from ImageCommands import ImageCommands
 from OtherCommands import OtherCommands
-from Music import Music
+#update Music file later and try to fix issues with it
+#from Music import Music
 from ValentinesDay2019 import ValentinesDay2019
 
 cogs = [ImageCommands,
         OtherCommands,
-        Music,
         ValentinesDay2019
         ]
 
