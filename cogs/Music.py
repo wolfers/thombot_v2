@@ -44,6 +44,8 @@ class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, requester):
         super().__init__(source)
         self.requester = requester
+
+        self.title = data.get('title')
         self.web_url = data.get('webpage_url')
 
     def __getitem__(self, item: str):
@@ -76,7 +78,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
         requester = data['requester']
 
         to_run = partial(ytdl.extract_info, url=data['webpage_url'], download=False)
-        data = await loop.run_in_extractor(None, to_run)
+        data = await loop.run_in_executor(None, to_run)
 
         return cls(discord.FFmpegPCMAudio(data['url']), data=data, requester=requester)
 
@@ -119,10 +121,10 @@ class MusicPlayer:
             
             if not isinstance(source, YTDLSource):
                 try:
-                    source = await YTDLSource.regather_stream(source, lopp=self.bot.loop)
+                    source = await YTDLSource.regather_stream(source, loop=self.bot.loop)
                 except Exception as e:
-                    await self._channel.send(f'There was an error processing your song. /n'
-                                             f'```css/n[{e}]/n```')
+                    await self._channel.send(f'There was an error processing your song. \n'
+                                             f'```css\n[{e}]\n```')
                     continue
             
             source.volume = self.volume
@@ -211,7 +213,7 @@ class Music:
             try:
                 channel = ctx.author.voice.channel
             except AttributeError:
-                raise InvalidVoiceChannel('No channel to join. Please either specify a valid cahnnel or join one.')
+                raise InvalidVoiceChannel('No channel to join. Please either specify a valid channel or join one.')
             
         vc = ctx.voice_client
 
@@ -279,7 +281,7 @@ class Music:
             return
         
         vc.resume()
-        await ctx.send(f'**1{ctx.author}`**: Resumes the song!')
+        await ctx.send(f'`**{ctx.author}**`: Resumed the song!')
 
     @commands.command(name='skip')
     async def skip_(self, ctx):
@@ -354,10 +356,10 @@ class Music:
         if not 0 < vol < 101:
             return await ctx.send('please enter a value between 1 and 100')
         
-        player = self.get_palyer(ctx)
+        player = self.get_player(ctx)
 
         if vc.source:
-            vc.sourcec.volume = vol / 100
+            vc.source.volume = vol / 100
         
         player.volume = vol / 100
         await ctx.send(f'**`{ctx.author}`**: Set the volume to **{vol}%**')

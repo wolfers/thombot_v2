@@ -63,7 +63,7 @@ class otherCommands:
 
 
     @commands.command()
-    @commands.guild()
+    @commands.guild_only()
     async def ban(self, ctx):
         '''
         Actually for real "bans" someone from the server

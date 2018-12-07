@@ -25,11 +25,12 @@ description = """
     I am thom-bot. Created by protonheart for the thom stargazer memorial conglomerate.
     """
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or('!'), description=description, pm_help=None)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('!'), description=description)
 
-initial_extentions = ['cogs.otherCommands',
-                      'holidaycogs.valentinesDay2019',
-                      'cogs.imageCommands']
+initial_extentions = [#'holidaycogs.etc',
+                      'cogs.otherCommands',
+                      'cogs.imageCommands',
+                      'cogs.Music',]
 
 for extention in initial_extentions:
     try:
