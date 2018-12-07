@@ -4,14 +4,14 @@ import random
 import requests
 import os
 
-cwd = os.getcwd()
+cwd = os.getcwd() 
 
-class ImageCommands:
+class imageCommands:
     def __init__(self, bot):
         self.bot = bot
 
 
-    @bot.command()
+    @commands.command()
     async def cat(self, ctx):
         '''
         Grabs a random cat iamge from one of the two apis and
@@ -26,7 +26,7 @@ class ImageCommands:
         await self.ctx.send(ran_cat)
 
 
-    @bot.command()
+    @commands.command()
     async def nickelback(self, ctx):
         '''
         posts a random nickleback song from the list
@@ -49,7 +49,7 @@ class ImageCommands:
         await self.ctx.send(rand_song)
 
 
-    @bot.command()
+    @commands.command()
     async def harambe(self, ctx):
         '''
         posts a random image of harambe from the images folder
@@ -59,7 +59,7 @@ class ImageCommands:
         await self.ctx.send(file=harambe_file)
 
 
-    @bot.command()
+    @commands.command()
     async def aliens(self, ctx):
         '''
         aliens are real and they did everything cool in history
@@ -68,7 +68,7 @@ class ImageCommands:
         await self.ctx.send(file=alien_file)
 
 
-    @bot.command()
+    @commands.command()
     async def dva(self, ctx):
         '''
         gremlin dva image
@@ -77,7 +77,7 @@ class ImageCommands:
         await self.ctx.send(file=dva_file)
 
 
-    @bot.command()
+    @commands.command()
     async def mission(self, ctx):
         '''
         mission statement of thom stargazer
@@ -86,7 +86,7 @@ class ImageCommands:
         await self.ctx.send(file=mission_file)
 
 
-    @bot.command()
+    @commands.command()
     async def goo(self, ctx):
         '''
         shoot your goo my dude
@@ -95,7 +95,7 @@ class ImageCommands:
         await self.ctx.send(file=goo_file)
 
 
-    @bot.command()
+    @commands.command()
     async def goo2(self, ctx):
         '''
         shoot goo dude???
@@ -105,7 +105,7 @@ class ImageCommands:
         await self.ctx.send(file=goo2_file)
 
 
-    @bot.command()
+    @commands.command()
     async def dog(self, ctx):
         '''
         random dog in chat! sometiems posts videos
@@ -113,7 +113,8 @@ class ImageCommands:
         await self.ctx.send(requests.get('https://random.dog/woof.json').json()['url'])
 
 
-    @bot.command()
+    @commands.command()
+    @commands.is_owner()
     async def skeleton(self, ctx):
         '''
         picks a random skeleton. very spooky
@@ -122,3 +123,6 @@ class ImageCommands:
         skeleton = 'skeleton' + str(random.randint(1,19)) + '.jpg'
         skeleton_file = discord.File(cwd + '/pictures/skeletons/' + skeleton, "skeleton")
         await self.bot.send_file(file=skeleton_file)
+
+def setup(bot):
+    bot.add_cog(imageCommands(bot))

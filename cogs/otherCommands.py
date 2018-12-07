@@ -1,16 +1,50 @@
 import discord
 from discord.ext import commands
-from Utils import textadd
 import os
 import random
+from PIL import ImageFont, Image, ImageDraw
+
+font = ImageFont.truetype("comic-sans.ttf", 40)
 
 cwd = os.getcwd()
 
-class OtherCommands:
+def textadd(message):
+    '''
+    draws the text onto the goo image.
+    '''
+    with Image.open(cwd + "/pictures/blankgoo.png") as img:
+        draw = ImageDraw.Draw(img)
+        message = textprep(message)
+        draw.text((420, 150), message, fill=(0,0,0,0), font=font)
+        draw = ImageDraw.Draw(img)
+        img.save(cwd + "/pictures/gootext.png")
+
+
+def textprep(message):
+    '''
+    tries to fit the text onto the page.
+    This function needs to be updated. It works but not well.
+    '''
+    letter_list = []
+    line_list = []
+    for letter in message:
+        if len(letter_list) <= 2 or letter != " ":
+            letter_list.append(letter)
+        else:
+            line = "".join(letter_list)
+            line_list.append(line)
+            letter_list = []
+    line = "".join(letter_list)
+    line_list.append(line)
+    text = "\n".join(line_list)
+    return text 
+
+
+class otherCommands:
     def __init__(self, bot):
         self.bot = bot
 
-    @bot.command()
+    @commands.command()
     async def slab(self, ctx):
         '''
         posts the text into chat.
@@ -19,7 +53,7 @@ class OtherCommands:
         await self.ctx.send('RETURN THE SLAAAAB')
 
 
-    @bot.command()
+    @commands.command()
     async def stfu(self, ctx):
         '''
         posts the stfu filthy frank song
@@ -28,7 +62,7 @@ class OtherCommands:
         await self.ctx.send('https://youtu.be/OLpeX4RRo28')
 
 
-    @bot.command()
+    @commands.command()
     async def ban(self, ctx):
         '''
         Actually for real "bans" someone from the server
@@ -36,7 +70,7 @@ class OtherCommands:
         await self.ctx.send('you\'ve been banned, {}!'.format(ctx.message.mentions[0].mention))
 
 
-    @bot.command()
+    @commands.command()
     async def WehavenobeginningWehavenoendWeareinfiniteMillionsofyearsafteryourcivilizationhasbeeneradicatedandforgottenwewillendure(self, ctx):
         '''
         This will never be used.
@@ -44,7 +78,7 @@ class OtherCommands:
         await self.ctx.send('We impose order on the chaos of organic evolution. You exist because we allow it, and you will end because we demand it. ')
 
 
-    @bot.command()
+    @commands.command()
     async def gooedit(self, ctx):
         '''
         This command runs the textadd to add text to a blank
@@ -53,3 +87,6 @@ class OtherCommands:
         textadd(ctx.message.content[9:])
         gooedit_file = discord.File(cwd + "/pictures/gootext.png", "goo")
         await self.ctx.send(file=gooedit_file)
+
+def setup(bot):
+    bot.add_cog(otherCommands(bot))

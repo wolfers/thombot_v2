@@ -29,12 +29,14 @@ vday_info = '''
 '''
 
 #either use csv for a text file or something to make this easy. just need to get the info
-with open("db_info.txt", "r")as f:
+with open("./db_info.txt", "r")as f:
     db_user = f.readline()[:-1]
     db_password = f.readline()[:-1]
     db_host = f.readline()[:-1]
     db_database = f.readline()[:-1]
 
+db = orm.Database()
+db.bind(provider='postgres', user=db_user, password=db_password, host=db_host, database=db_database)
 
 class User(db.Entity):
     user_id = orm.Required(int)
@@ -44,9 +46,6 @@ class GuildStatus(db.Entity):
     guild = orm.Primary_Key(int)
     status = orm.Required(str)
 
-
-db = orm.Database()
-db.bind(provider='postgres', user=db_user, password=db_password, host=db_host, database=db_database)
 db.generate_mapping(create_tables=True)
 
 
@@ -123,11 +122,13 @@ def get_matches(guild):
     return matches
 
 
-class ValentinesDay2019:
+class valentinesDay2019:
     def __init__(self, bot):
         self.bot = bot
 
-    @bot.command()
+    @commands.command(hidden=True)
+    @commands.guild()
+    @commands.is_owner()
     async def vday_setup(self, ctx):
         '''
         will start the vday submission process.
@@ -141,7 +142,8 @@ class ValentinesDay2019:
             update_guild(guild)
         await self.ctx.send(vday_start)
 
-    @bot.command()
+    @commands.command()
+    @commands.guild()
     async def vday_join(self, ctx):
         '''
         adds the user to the database.
@@ -160,7 +162,9 @@ class ValentinesDay2019:
                 store_user(user, guild)
                 await self.ctx.send("You've been added to the pool of valentines!")
     
-    @bot.command()
+    @commands.command(hidden=True)
+    @commands.guild()
+    @commands.is_owner()
     async def vday_matches(self, ctx):
         '''
         gets all the users from the database
@@ -177,3 +181,6 @@ class ValentinesDay2019:
             self.ctx.send("Hope you had fun! Enjoy your valentines!")
         else:
             self.ctx.send("This server isn't currently active in the event.")
+
+def setup(bot):
+    bot.add_cog(valentinesDay2019(bot))
