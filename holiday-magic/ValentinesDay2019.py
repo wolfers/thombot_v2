@@ -30,18 +30,18 @@ vday_info = '''
 
 #either use csv for a text file or something to make this easy. just need to get the info
 with open("db_info.txt", "r")as f:
-    db_user = f.readline()[:-2]
-    db_password = f.readline()[:-2]
-    db_host = f.readline()[:-2]
-    db_database = f.readline()[:-2]
+    db_user = f.readline()[:-1]
+    db_password = f.readline()[:-1]
+    db_host = f.readline()[:-1]
+    db_database = f.readline()[:-1]
 
 
 class User(db.Entity):
-    user_id = orm.Required(str)
-    user_guild = orm.Required(str)
+    user_id = orm.Required(int)
+    user_guild = orm.Required(int)
 
 class GuildStatus(db.Entity):
-    guild = orm.Primary_Key(str)
+    guild = orm.Primary_Key(int)
     status = orm.Required(str)
 
 
@@ -114,7 +114,7 @@ def get_matches(guild):
     matches = []
     if len(users) % 2 != 0:
         users.append("240932500728315904")
-    for _ in range(len(users)):
+    for _ in range(len(users)/2):
         shuffle(users)
         user1 = users.pop()
         shuffle(users)
@@ -124,43 +124,43 @@ def get_matches(guild):
 
 
 class ValentinesDay2019:
-    def init(self, bot):
+    def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def vday_setup(self, ctx):
         '''
         will start the vday submission process.
         will let people isgn up to recieve a valentine
         '''
-        guild = ctx.message.server
+        guild = ctx.guild.id
         status = check_guild(guild)
         if status == "active":
-            self.bot.say("This guild is already part of the event! no need to start it again!")
+            self.ctx.send("This guild is already part of the event! no need to start it again!")
         else:
             update_guild(guild)
-        await self.bot.say(vday_start)
+        await self.ctx.send(vday_start)
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def vday_join(self, ctx):
         '''
         adds the user to the database.
         '''
-        user = ctx.message.author
-        guild = ctx.message.server
+        user = ctx.author.id
+        guild = ctx.guild.id
         status = check_guild(guild)
         if status == "ended":
-            self.bot.say("This server event has already ended!")
+            self.ctx.send("This server event has already ended!")
         elif status == "missing":
-            self.bot.say("This event hasn't started yet! There will be an announcment when it has!")
+            self.ctx.send("This event hasn't started yet! There will be an announcment when it has!")
         else:
             if check_user(user, guild) == True:
-                self.bot.say("You've already joined!")
+                self.ctx.send("You've already joined!")
             else:
                 store_user(user, guild)
-                await self.bot.say("You've been added to the pool of valentines!")
+                await self.ctx.send("You've been added to the pool of valentines!")
     
-    @commands.command(pass_context=True)
+    @bot.command()
     async def vday_matches(self, ctx):
         '''
         gets all the users from the database
@@ -168,16 +168,12 @@ class ValentinesDay2019:
         if there is an odd number of users it includes thombot to even it out
         displays the matches to the discord channel
         '''
-        guild = ctx.message.server
+        guild = ctx.guild.id
         matches = get_matches(guild)
         if check_guild(guild) == "active":
-            self.bot.say("It's time to announce the winners and losers of the valentines day contest! The pairs will be below:")
+            self.ctx.send("It's time to announce the winners and losers of the valentines day contest! The pairs will be below:")
             for m in matches:
-                self.bot.say("<@{m[0]}> :heart: <@{m[1]}>")
-            self.bot.say("Hope you had fun! Enjoy your valentines!")
+                self.ctx.send("<@{m[0]}> :heart: <@{m[1]}>")
+            self.ctx.send("Hope you had fun! Enjoy your valentines!")
         else:
-            self.bot.say("This server isn't currently active in the event.")
-
-
-def setup(bot):
-    bot.add_cog(ValentinesDay2019(bot))
+            self.ctx.send("This server isn't currently active in the event.")
