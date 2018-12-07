@@ -10,7 +10,7 @@ class ImageCommands:
         self.bot = bot
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def cat(self):
         '''
         Grabs a random cat iamge from one of the two apis and
@@ -22,10 +22,10 @@ class ImageCommands:
             ran_cat = requests.get(ran_cat_link).json()["file"]
         else:
             ran_cat = requests.get(ran_cat_link).url
-        await self.bot.say(ran_cat)
+        await self.ctx.send(ran_cat)
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def nickelback(self):
         '''
         posts a random nickleback song from the list
@@ -48,7 +48,7 @@ class ImageCommands:
         await self.bot.say(rand_song)
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def harambe(self, ctx):
         '''
         posts a random image of harambe from the images folder
@@ -59,7 +59,7 @@ class ImageCommands:
                                  harambe)
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def aliens(self, ctx):
         '''
         aliens are real and they did everything cool in history
@@ -68,7 +68,7 @@ class ImageCommands:
                                  cwd + '/pictures/aliens.png')
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def dva(self, ctx):
         '''
         gremlin dva image
@@ -77,7 +77,7 @@ class ImageCommands:
                                  cwd + '/pictures/dva.png')
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def mission(self, ctx):
         '''
         mission statement of thom stargazer
@@ -86,7 +86,7 @@ class ImageCommands:
                                  cwd + '/pictures/thom_stargazer.jpg')
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def goo(self, ctx):
         '''
         shoot your goo my dude
@@ -95,7 +95,7 @@ class ImageCommands:
                                  cwd + '/pictures/goo.jpg')
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def goo2(self, ctx):
         '''
         shoot goo dude???
@@ -105,15 +105,15 @@ class ImageCommands:
                                  cwd + '/pictures/goo2.png')
 
 
-    @commands.command()
-    async def dog(self):
+    @bot.command()
+    async def dog(self, _):
         '''
         random dog in chat! sometiems posts videos
         '''
         await self.bot.say(requests.get('https://random.dog/woof.json').json()['url'])
 
 
-    @commands.command(pass_context=True)
+    @bot.command()
     async def skeleton(self, ctx):
         '''
         picks a random skeleton. very spooky
@@ -123,7 +123,3 @@ class ImageCommands:
         await self.bot.send_file(ctx.message.channel,
                                  cwd + '/pictures/skeletons/' +
                                   skeleton)
-
-
-def setup(bot):
-    bot.add_cog(ImageCommands(bot))
