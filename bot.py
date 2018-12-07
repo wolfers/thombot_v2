@@ -35,7 +35,7 @@ description = """
     I am thom-bot. Created by protonheart for the thom stargazer memorial conglomerate.
     """
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or('!'), description=description)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('!'), description=description, pm_help=None)
 
 for cog in cogs:
     bot.add_cog(cog)

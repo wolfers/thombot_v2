@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 import random
 import requests
 import os
@@ -11,7 +12,7 @@ class ImageCommands:
 
 
     @bot.command()
-    async def cat(self):
+    async def cat(self, ctx):
         '''
         Grabs a random cat iamge from one of the two apis and
         sends it to the chat
@@ -26,7 +27,7 @@ class ImageCommands:
 
 
     @bot.command()
-    async def nickelback(self):
+    async def nickelback(self, ctx):
         '''
         posts a random nickleback song from the list
         list is expandable if needed
@@ -45,7 +46,7 @@ class ImageCommands:
                  'https://www.youtube.com/watch?v=FIjRo-gMlKE',
                  'https://www.youtube.com/watch?v=vt-UtzP1u1g')
         rand_song = random.choice(songs)
-        await self.bot.say(rand_song)
+        await self.ctx.send(rand_song)
 
 
     @bot.command()
@@ -54,9 +55,8 @@ class ImageCommands:
         posts a random image of harambe from the images folder
         '''
         harambe = 'Harambe' + str(random.randint(1,8)) + '.jpg'
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/harambe/' +
-                                 harambe)
+        harambe_file = discord.File(cwd + '/pictures/harambe/' + harambe, "harambe")
+        await self.ctx.send(file=harambe_file)
 
 
     @bot.command()
@@ -64,8 +64,8 @@ class ImageCommands:
         '''
         aliens are real and they did everything cool in history
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/aliens.png')
+        alien_file = discord.File(cwd + '/pictures/aliens.png', "aliens")
+        await self.ctx.send(file=alien_file)
 
 
     @bot.command()
@@ -73,8 +73,8 @@ class ImageCommands:
         '''
         gremlin dva image
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/dva.png')
+        dva_file = discord.File(cwd + '/pictures/dva.png', "dva")
+        await self.ctx.send(file=dva_file)
 
 
     @bot.command()
@@ -82,8 +82,8 @@ class ImageCommands:
         '''
         mission statement of thom stargazer
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/thom_stargazer.jpg')
+        mission_file= discord.File(cwd + '/pictures/thom_stargazer.jpg', "mission statement")
+        await self.ctx.send(file=mission_file)
 
 
     @bot.command()
@@ -91,8 +91,8 @@ class ImageCommands:
         '''
         shoot your goo my dude
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/goo.jpg')
+        goo_file = discord.File(cwd + '/pictures/goo.jpg', "goo")
+        await self.ctx.send(file=goo_file)
 
 
     @bot.command()
@@ -101,16 +101,16 @@ class ImageCommands:
         shoot goo dude???
         distorted shoot your goo image
         '''
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/goo2.png')
+        goo2_file = discord.File(cwd + '/pictures/goo2.png', "goo2")
+        await self.ctx.send(file=goo2_file)
 
 
     @bot.command()
-    async def dog(self, _):
+    async def dog(self, ctx):
         '''
         random dog in chat! sometiems posts videos
         '''
-        await self.bot.say(requests.get('https://random.dog/woof.json').json()['url'])
+        await self.ctx.send(requests.get('https://random.dog/woof.json').json()['url'])
 
 
     @bot.command()
@@ -120,6 +120,5 @@ class ImageCommands:
         happy halloween (or any day where you want a spoopy boi)
         '''
         skeleton = 'skeleton' + str(random.randint(1,19)) + '.jpg'
-        await self.bot.send_file(ctx.message.channel,
-                                 cwd + '/pictures/skeletons/' +
-                                  skeleton)
+        skeleton_file = discord.File(cwd + '/pictures/skeletons/' + skeleton, "skeleton")
+        await self.bot.send_file(file=skeleton_file)
