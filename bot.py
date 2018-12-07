@@ -1,7 +1,27 @@
 from discord.ext import commands
 import discord
+import asyncio
 import re
 import os
+
+import logging
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+
+from ImageCommands import ImageCommands
+from OtherCommands import OtherCommands
+from Music import Music
+from ValentinesDay2019 import ValentinesDay2019
+
+cogs = [ImageCommands,
+        OtherCommands,
+        Music,
+        ValentinesDay2019
+        ]
 
 cwd = os.getcwd()
 
@@ -12,17 +32,14 @@ if not discord.opus.is_loaded():
     discord.opus.load_opus('/usr/lib/libopus.so')
 
 description = """
-    I am thom-bot! I'm here to make things more dumb!!!
+    I am thom-bot. Created by protonheart for the thom stargazer memorial conglomerate.
     """
 
-startup_extensions = ["ImageCommands",
-                      "OtherCommands",
-                      "Music"]
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('!'), description=description)
 
-bot = commands.Bot(command_prefix='!', description=description)
+for cog in cogs:
+    bot.add_cog(cog)
 
-
-@bot.event
 async def on_ready():
     print('logged in as')
     print(bot.user.name)
@@ -47,14 +64,5 @@ async def on_message(message):
     if re.search(r'( )owo( )', message.content) or message.content.startswith('owo'):
         await bot.send_message(message.channel, "*notices bulge* What's this?")
     await bot.process_commands(message)
-
-
-if __name__ == "__main__":
-    for extension in startup_extensions:
-        try:
-            bot.load_extension(extension)
-        except:
-            pass
-
 
 bot.run(token[:-1])
