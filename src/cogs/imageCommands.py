@@ -18,8 +18,8 @@ class imageCommands:
         sends it to the chat
         '''
         ran_cat_link = random.choice(['http://thecatapi.com/api/images/get',
-                                      'http://random.cat/meow'])
-        if ran_cat_link == 'http://random.cat/meow':
+                                      'http://aws.random.cat/meow'])
+        if ran_cat_link == 'http://aws.random.cat/meow':
             ran_cat = requests.get(ran_cat_link).json()["file"]
         else:
             ran_cat = requests.get(ran_cat_link).url

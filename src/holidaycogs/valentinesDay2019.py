@@ -186,19 +186,3 @@ class valentinesDay2019:
 
 def setup(bot):
     bot.add_cog(valentinesDay2019(bot))
-
-'''
-[Unit]
-Description=bot
-After=network-online.target
-
-[Service]
-Type=simple
-User=ubuntu
-ExecStart=/usr/bin/python3.6 /home/ubuntu/thombot_v2/bot.py
-WorkingDirectory=/home/ubuntu/thombot_v2/
-
-[Install]
-WantedBy=multi-user.target
-
-'''

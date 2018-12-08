@@ -22,11 +22,8 @@ services:
         tty: true
         depends_on:
             - postgres
-    pgadmin:
-        container_name: pgadmin
-        image: dpage/pgadmin4:latest
-        ports:
-            - 5050:80
-        environment:
-            PGADMIN_DEFAULT_EMAIL: docker@docker.com
-            PGADMIN_DEFAULT_PASSWORD: docker
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "3"
