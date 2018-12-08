@@ -1,11 +1,7 @@
 version: '3'
 
 services:
-    bot:
-        container_name: bot
-        build:
-            context: .
-            dockerfile: build/bot/Dockerfile
+
     postgres:
         container_name: postgres
         image: postgres:10.5-alpine
@@ -16,6 +12,16 @@ services:
             PG_ROOT_PASSWORD: twotacos
         ports:
             - 5430:5432
+        volumes:
+            - ./postgres-data:/var/lib/postgresql/data
+    bot:
+        container_name: bot
+        build:
+            context: .
+            dockerfile: build/bot/Dockerfile
+        tty: true
+        depends_on:
+            - postgres
     pgadmin:
         container_name: pgadmin
         image: dpage/pgadmin4:latest
