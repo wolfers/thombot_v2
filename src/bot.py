@@ -27,10 +27,10 @@ description = """
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or('!'), description=description)
 
-initial_extentions = [#'holidaycogs.etc',
+initial_extentions = [#'holidaycogs.valentinesDay2019',
                       'cogs.otherCommands',
                       'cogs.imageCommands',
-                      'cogs.Music',]
+                      'cogs.Music']
 
 for extention in initial_extentions:
     try:

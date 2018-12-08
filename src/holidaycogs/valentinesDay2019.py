@@ -9,6 +9,8 @@ import discord
 from discord.ext import commands
 from random import shuffle
 from pony import orm
+from pony.orm import db_session
+
 
 
 vday_start = ''' 
@@ -32,24 +34,24 @@ vday_info = '''
 with open("./db_info.txt", "r")as f:
     db_user = f.readline()[:-1]
     db_password = f.readline()[:-1]
-    db_host = f.readline()[:-1]
+    db_port = f.readline()[:-1]
     db_database = f.readline()[:-1]
 
 db = orm.Database()
-db.bind(provider='postgres', user=db_user, password=db_password, host=db_host, database=db_database)
+db.bind(provider='postgres', user=db_user, password=db_password, host="localhost", database=db_database, port=db_port)
 
 class User(db.Entity):
     user_id = orm.Required(int)
     user_guild = orm.Required(int)
 
 class GuildStatus(db.Entity):
-    guild = orm.Primary_Key(int)
+    guild = orm.PrimaryKey(int)
     status = orm.Required(str)
 
 db.generate_mapping(create_tables=True)
 
 
-@orm.db_session
+@db_session
 def check_guild(guild):
     '''
     checks and returns the status of the guild as a str
@@ -63,7 +65,7 @@ def check_guild(guild):
         return "missing"
 
 
-@orm.db_sesion
+@db_session
 def update_guild(guild, status="active"):
     '''
     updates the guilds status in the database.
@@ -79,7 +81,7 @@ def update_guild(guild, status="active"):
         GuildStatus(guild=guild, status=status)
 
 
-@orm.db_session
+@db_session
 def check_user(user_id, user_guild):
     '''
     checks the user and guild against the database
@@ -88,7 +90,7 @@ def check_user(user_id, user_guild):
     return User.exists(user_id=user_id, user_guild=user_guild)
 
 
-@orm.db_session
+@db_session
 def store_user(user_id, user_guild):
     '''
     Stores the user in the database using their user id and the guild id.
@@ -96,7 +98,7 @@ def store_user(user_id, user_guild):
     User(user_id=user_id, user_guild=user_guild)
 
 
-@orm.db_session
+@db_session
 def get_users_by_guild(guild):
     '''
     get a list of all the user ids for the guild
@@ -127,7 +129,7 @@ class valentinesDay2019:
         self.bot = bot
 
     @commands.command(hidden=True)
-    @commands.guild()
+    @commands.guild_only()
     @commands.is_owner()
     async def vday_setup(self, ctx):
         '''
@@ -143,7 +145,7 @@ class valentinesDay2019:
         await ctx.send(vday_start)
 
     @commands.command()
-    @commands.guild()
+    @commands.guild_only()
     async def vday_join(self, ctx):
         '''
         adds the user to the database.
@@ -163,7 +165,7 @@ class valentinesDay2019:
                 await ctx.send("You've been added to the pool of valentines!")
     
     @commands.command(hidden=True)
-    @commands.guild()
+    @commands.guild_only()
     @commands.is_owner()
     async def vday_matches(self, ctx):
         '''
@@ -184,3 +186,19 @@ class valentinesDay2019:
 
 def setup(bot):
     bot.add_cog(valentinesDay2019(bot))
+
+'''
+[Unit]
+Description=bot
+After=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/usr/bin/python3.6 /home/ubuntu/thombot_v2/bot.py
+WorkingDirectory=/home/ubuntu/thombot_v2/
+
+[Install]
+WantedBy=multi-user.target
+
+'''
