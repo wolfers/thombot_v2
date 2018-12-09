@@ -38,14 +38,14 @@ with open("./db_info.txt", "r")as f:
     db_database = f.readline()[:-1]
 
 db = orm.Database()
-db.bind(provider='postgres', user=db_user, password=db_password, host="localhost", database=db_database, port=db_port)
+db.bind(provider='postgres', user=db_user, password=db_password, host="postgres", database=db_database, port=db_port)
 
 class User(db.Entity):
-    user_id = orm.Required(int)
-    user_guild = orm.Required(int)
+    user_id = orm.Required(int, size=64)
+    user_guild = orm.Required(int, size=64)
 
 class GuildStatus(db.Entity):
-    guild = orm.PrimaryKey(int)
+    guild = orm.PrimaryKey(int, size=64)
     status = orm.Required(str)
 
 db.generate_mapping(create_tables=True)
@@ -103,7 +103,7 @@ def get_users_by_guild(guild):
     '''
     get a list of all the user ids for the guild
     '''
-    return User.select(u.user_id for u in User if u.user_guid == guild)[:]
+    return orm.select(u.user_id for u in User if u.user_guild == guild)[:]
 
 
 def get_matches(guild):
@@ -111,16 +111,16 @@ def get_matches(guild):
     Takes in the guild and returns matches for all users that
     registered in that guild
     '''
-    users = get_users_by_guild(guild)
+    users = list(get_users_by_guild(guild))
     matches = []
     if len(users) % 2 != 0:
         users.append("240932500728315904")
-    for _ in range(len(users)/2):
+    for _ in range(len(users)//2):
         shuffle(users)
         user1 = users.pop()
         shuffle(users)
         user2 = users.pop()
-        matches.append(set(user1, user2))
+        matches.append([user1, user2])
     return matches
 
 
@@ -139,10 +139,10 @@ class valentinesDay2019:
         guild = ctx.guild.id
         status = check_guild(guild)
         if status == "active":
-            ctx.send("This guild is already part of the event! no need to start it again!")
+            await ctx.send("This guild is already part of the event! no need to start it again!")
         else:
             update_guild(guild)
-        await ctx.send(vday_start)
+            await ctx.send(vday_start)
 
     @commands.command()
     @commands.guild_only()
@@ -154,12 +154,12 @@ class valentinesDay2019:
         guild = ctx.guild.id
         status = check_guild(guild)
         if status == "ended":
-            ctx.send("This server event has already ended!")
+            await ctx.send("This server event has already ended!")
         elif status == "missing":
-            ctx.send("This event hasn't started yet! There will be an announcment when it has!")
+            await ctx.send("This event hasn't started yet! There will be an announcment when it has!")
         else:
             if check_user(user, guild) == True:
-                ctx.send("You've already joined!")
+                await ctx.send("You've already joined!")
             else:
                 store_user(user, guild)
                 await ctx.send("You've been added to the pool of valentines!")
@@ -177,12 +177,13 @@ class valentinesDay2019:
         guild = ctx.guild.id
         matches = get_matches(guild)
         if check_guild(guild) == "active":
-            ctx.send("It's time to announce the winners and losers of the valentines day contest! The pairs will be below:")
+            await ctx.send("It's time to announce the winners and losers of the valentines day contest! The pairs will be below:")
             for m in matches:
-                ctx.send("<@{m[0]}> :heart: <@{m[1]}>")
-            ctx.send("Hope you had fun! Enjoy your valentines!")
+                await ctx.send("<@{}> :heart: <@{}>".format(m[0], m[1]))
+            await ctx.send("Hope you had fun! Enjoy your valentines!")
+            update_guild(guild, status="ended")
         else:
-            ctx.send("This server isn't currently active in the event.")
+            await ctx.send("This server isn't currently active in the event.")
 
 def setup(bot):
     bot.add_cog(valentinesDay2019(bot))

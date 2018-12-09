@@ -27,3 +27,5 @@ services:
             options:
                 max-size: "200k"
                 max-file: "3"
+        volumes:
+            - ./src:/thombot

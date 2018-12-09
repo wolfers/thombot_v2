@@ -7,13 +7,13 @@ import sys, traceback
 
 import logging
 import logging.handlers
-
+'''
 logger = logging.getLogger('discord')
 logger.setLevel(logging.INFO)
 handler = logging.handlers.SysLogHandler(address='localhost')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
-
+'''
 cwd = os.getcwd()
 
 with open(cwd + '/token.txt', 'r') as f:
