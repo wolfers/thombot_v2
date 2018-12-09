@@ -12,7 +12,9 @@ To Do
 -----
 
 + add function to generate a story from an LSTM trained on various things(multiple lstms or trained on multiple things)
-+ finish valentines day 2019
 + create secret santa christmas 2019
 + find other fun events to make
-+ create soemthing fun for birthdays
++ create something fun for birthdays
++ use embeds more
++ add a cutsom voting command so people can make their own simple polls using the bot
+

@@ -14,8 +14,7 @@ class imageCommands:
     @commands.command()
     async def cat(self, ctx):
         '''
-        Grabs a random cat iamge from one of the two apis and
-        sends it to the chat
+        You get a random cat!
         '''
         ran_cat_link = random.choice(['http://thecatapi.com/api/images/get',
                                       'http://aws.random.cat/meow'])
@@ -29,8 +28,7 @@ class imageCommands:
     @commands.command()
     async def nickelback(self, ctx):
         '''
-        posts a random nickleback song from the list
-        list is expandable if needed
+        amazing music
         '''
         songs = ('https://www.youtube.com/watch?v=BB0DU4DoPP4',
                  'https://www.youtube.com/watch?v=4OjiOn5s8s8',
@@ -52,7 +50,7 @@ class imageCommands:
     @commands.command()
     async def harambe(self, ctx):
         '''
-        posts a random image of harambe from the images folder
+        Random image of Harambe.
         '''
         harambe = 'Harambe' + str(random.randint(1,8)) + '.jpg'
         harambe_file = discord.File(cwd + '/pictures/harambe/' + harambe)
@@ -71,7 +69,7 @@ class imageCommands:
     @commands.command()
     async def dva(self, ctx):
         '''
-        gremlin dva image
+        gremlin dva
         '''
         dva_file = discord.File(cwd + '/pictures/dva.png')
         await ctx.send(file=dva_file)
@@ -99,7 +97,6 @@ class imageCommands:
     async def goo2(self, ctx):
         '''
         shoot goo dude???
-        distorted shoot your goo image
         '''
         goo2_file = discord.File(cwd + '/pictures/goo2.png')
         await ctx.send(file=goo2_file)
@@ -108,7 +105,7 @@ class imageCommands:
     @commands.command()
     async def dog(self, ctx):
         '''
-        random dog in chat! sometiems posts videos
+        random dog in chat! sometimes posts videos
         '''
         await ctx.send(requests.get('https://random.dog/woof.json').json()['url'])
 
@@ -116,8 +113,7 @@ class imageCommands:
     @commands.command()
     async def skeleton(self, ctx):
         '''
-        picks a random skeleton. very spooky
-        happy halloween (or any day where you want a spoopy boi)
+        shows you a random skeleton. veeeeeeery spooky.
         '''
         skeleton = 'skeleton' + str(random.randint(1,19)) + '.jpg'
         skeleton_file = discord.File(cwd + '/pictures/skeletons/' + skeleton)

@@ -47,19 +47,9 @@ class otherCommands:
     @commands.command()
     async def slab(self, ctx):
         '''
-        posts the text into chat.
         you're cursed until you return it.
         '''
         await ctx.send('RETURN THE SLAAAAB')
-
-
-    @commands.command()
-    async def stfu(self, ctx):
-        '''
-        posts the stfu filthy frank song
-        might remove this in the future.
-        '''
-        await ctx.send('https://youtu.be/OLpeX4RRo28')
 
 
     @commands.command()
@@ -82,8 +72,7 @@ class otherCommands:
     @commands.command()
     async def gooedit(self, ctx):
         '''
-        This command runs the textadd to add text to a blank
-        copy of the shoot your goo image then posts the iamge.
+        Shoot your goo but the way you always wanted it, with your own, dumb words all over it.
         '''
         textadd(ctx.message.content[9:])
         gooedit_file = discord.File(cwd + "/pictures/gootext.png")
