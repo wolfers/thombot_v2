@@ -40,11 +40,11 @@ with open("./db_info.txt", "r")as f:
 db = orm.Database()
 db.bind(provider='postgres', user=db_user, password=db_password, host="postgres", database=db_database, port=db_port)
 
-class User(db.Entity):
+class User_vday2019(db.Entity):
     user_id = orm.Required(int, size=64)
     user_guild = orm.Required(int, size=64)
 
-class GuildStatus(db.Entity):
+class Guild_vday2019(db.Entity):
     guild = orm.PrimaryKey(int, size=64)
     status = orm.Required(str)
 
@@ -59,8 +59,8 @@ def check_guild(guild):
     if it is not active it returns ended
     if it is not found in the database it returns missing
     '''
-    if GuildStatus.exists(guild=guild):
-        return GuildStatus.get(guild=guild).status
+    if Guild_vday2019.exists(guild=guild):
+        return Guild_vday2019.get(guild=guild).status
     else:
         return "missing"
 
@@ -75,10 +75,10 @@ def update_guild(guild, status="active"):
     if status not in statuses:
         print("did not udate, invalid status")
         return None
-    if GuildStatus.exists(guild=guild):
-        GuildStatus.status = status
+    if Guild_vday2019.exists(guild=guild):
+        Guild_vday2019.status = status
     else:
-        GuildStatus(guild=guild, status=status)
+        Guild_vday2019(guild=guild, status=status)
 
 
 @db_session
@@ -87,7 +87,7 @@ def check_user(user_id, user_guild):
     checks the user and guild against the database
     returns True if the user exists and False if they do not
     '''
-    return User.exists(user_id=user_id, user_guild=user_guild)
+    return User_vday2019.exists(user_id=user_id, user_guild=user_guild)
 
 
 @db_session
@@ -95,7 +95,7 @@ def store_user(user_id, user_guild):
     '''
     Stores the user in the database using their user id and the guild id.
     '''
-    User(user_id=user_id, user_guild=user_guild)
+    User_vday2019(user_id=user_id, user_guild=user_guild)
 
 
 @db_session
@@ -103,7 +103,7 @@ def get_users_by_guild(guild):
     '''
     get a list of all the user ids for the guild
     '''
-    return orm.select(u.user_id for u in User if u.user_guild == guild)[:]
+    return orm.select(u.user_id for u in User_vday2019 if u.user_guild == guild)[:]
 
 
 def get_matches(guild):
@@ -128,10 +128,10 @@ class valentinesDay2019:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(hidden=True)
+    @commands.command(alias=['vday_start'], hidden=True)
     @commands.guild_only()
     @commands.is_owner()
-    async def vday_setup(self, ctx):
+    async def vday_start(self, ctx):
         '''
         will start the vday submission process.
         will let people isgn up to recieve a valentine
