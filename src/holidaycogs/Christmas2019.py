@@ -158,6 +158,14 @@ def update_user(user_id, guild_id, wishes):
     UserSanta2019(user_id, guild_id).wishes = wishes
 
 
+def get_users(guild_id):
+    pass
+
+
+def get_matches(guild_id):
+    pass
+
+
 class Santa:
     def __init__(self, bot):
         self.bot = bot
@@ -242,6 +250,24 @@ class Santa:
         use guild names to keep track of what gift is for what server
         accept links or images as a gift. Must be either of those
         '''
+        guild_id = ctx.guild.id
+        guild_name = ctx.guild.name
+        guild_status = check_guild(guild_id)
+
+        if guild_status in ["inactive", "missing"]:
+            return await ctx.send("The event is not active on this server")
+        elif guild_status == "matched":
+            return await ctx.send("This server has already gottne their matches")
+
+        #get matches probably a dict where keys are the santa and values are their giftee
+        #maybe just a list and move down the list?
+        matches = get_matches(guild_id)
+        #add them to the database
+
+        #send each santa their match and some information
+
+        #send a message in the guild that matches have been sent.
+        #maybe @ all those involved but probably not needed since they'll get a dm
     
     @santa.command(hidden=True)
     @commands.guild_only()
