@@ -50,34 +50,90 @@ class GuildSanta2019(db.Entity):
 
 db.generate_mapping(create_tables=True)
 
-def check_guild(guild):
+
+@db_session
+def check_guild(guild_id):
+    '''
+    returns the status of the guild
+
+    paramters
+    ----------
+    guild_id: int
+        the id of the guild to check
+    
+    returns
+    --------
+    status: str
+        can either be active, inactive, or missing
+    '''
+    if GuildSanta2019.exists(guild_id=guild_id):
+        return GuildSanta2019.get(guild_id=guild_id).status
+    else:
+        return "missing"
+
+
+@db_session
+def update_guild(guild_id, status="active"):
+    '''
+    updates the status of the guild
+    will add the guild if it does not already exist.
+
+    parameters
+    -----------
+    guild_id: int
+        id of the guild to update
+    
+    status: str
+        default active
+        status to update the guild to. Can be active or inactive
+    '''
+    statuses = ['active', 'inactive']
+    if status not in statuses:
+        return print("did not update, invalid status")
+    if GuildSanta2019.exists(guild_id=guild_id):
+        GuildSanta2019.status = status
+    else:
+        GuildSanta2019(guild_id=guild_id, status=status)
+
+
+@db_session
+def check_user(user_id, guild_id):
     pass
 
 
-def update_guild(guild):
-    pass
-
-
+@db_session
 def get_user(user):
     pass
 
 
+@db_session
 def add_user(user):
     pass
 
 
+@db_session
 def update_user(user):
     pass
 
 
-class secretSanta2019:
+class Santa:
     def __init__(self, bot):
         self.bot = bot
     
-    @commands.command(hidden=True)
+    @commands.group()
+    @commands.guild_only()
+    async def santa(self, ctx):
+        if ctx.invoked_subcommand is None:
+            await ctx.send("invalid santa command! Use !help Santa to see the commands you can use")
+    
+    @santa.command(hidden=True)
     @commands.guild_only()
     @commands.is_owner()
-    async def santa_start(self, ctx):
+    async def start(self, ctx):
+        '''
+        Adds the guild to the database and sets to active.
+        sends the starting message to the guild channel
+        '''
         guild = ctx.guild.id
         status = check_guild(guild)
         if status == "active":
@@ -86,24 +142,40 @@ class secretSanta2019:
             update_guild(guild)
             await ctx.send(santa_start)
     
-    @commands.command()
+    @santa.command()
     @commands.guild_only()
-    async def santa_join(self, ctx):
+    async def join(self, ctx, *, wishes):
         '''
         add user to the list, take their input as their wishes.
         '''
+        user_id = ctx.author.id
+        guild_id = ctx.guild.id
+        guild_name = ctx.guild.name
+
+        if check_user(user_id, guild_id):
+            return await ctx.send("You've already joined the secret santa!"
+                           "If you would like to change your wishes you can use the update subcommand!")
+        add_user(user_id, guild_id, guild_name, wishes)
+        return await ctx.send("You have been enetered into the secret santa!"
+                              "Keep an eye on your DMs for who you'll be giving a gift to!"
+                              "Be sure to use the update subcommand if you ever want to update your wishes before santas are chosen.")
     
-    @commands.command()
+    @santa.command()
     @commands.guild_only()
-    async def santa_update(self, ctx):
+    async def update(self, ctx, *, wishes):
         '''
         allows the user to update their wishes in the database. Will replace whatever was written previously
         '''
+        user_id = ctx.author.id
+        guild_id = ctx.guild.id
 
-    @commands.command(hidden=True)
+        update_user(user_id, guild_id, wishes)
+        return await ctx.send("Your wishes have been updated!")
+
+    @santa.command(hidden=True)
     @commands.guild_only()
     @commands.is_owner()
-    async def santa_match(self, ctx):
+    async def match(self, ctx):
         '''
         matches all the people with their secret santa for the guild
         will send out a dm to each person with the one they give a gift to
@@ -112,23 +184,24 @@ class secretSanta2019:
         accept links or images as a gift. Must be either of those
         '''
     
-    @commands.command(hidden=True)
+    @santa.command(hidden=True)
     @commands.guild_only()
     @commands.is_owner()
-    async def santa_end(self, ctx):
+    async def end(self, ctx):
         '''
         closes the event for this server
         send all of the gifts via dm including the guild name
         '''
     
-    @commands.command(hidden=True)
+    @santa.command(hidden=True)
     @commands.is_owner()
-    async def santa_cleanup(self, ctx):
+    async def cleanup(self, ctx):
         '''
         will clean up the tables
         gets rid of all saved files
         this is to be run after a bit, once everonye ahs had a chacne to get their gifts
         don't do it right away, just ot make sure everyone got theirs correctly
+        unsure if I will do all of this
         '''
 
 
