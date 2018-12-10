@@ -128,10 +128,16 @@ class valentinesDay2019:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(alias=['vday_start'], hidden=True)
+
+    @commands.group()
+    async def vday(self, ctx):
+        if ctx.invoked_subcommand is None:
+            await ctx.send("invalid vday command")
+
+    @vday.command(hidden=True)
     @commands.guild_only()
     @commands.is_owner()
-    async def vday_start(self, ctx):
+    async def start(self, ctx):
         '''
         will start the vday submission process.
         will let people isgn up to recieve a valentine
@@ -144,9 +150,9 @@ class valentinesDay2019:
             update_guild(guild)
             await ctx.send(vday_start)
 
-    @commands.command()
+    @vday.command()
     @commands.guild_only()
-    async def vday_join(self, ctx):
+    async def join(self, ctx):
         '''
         adds the user to the database.
         '''
@@ -164,10 +170,10 @@ class valentinesDay2019:
                 store_user(user, guild)
                 await ctx.send("You've been added to the pool of valentines!")
     
-    @commands.command(hidden=True)
+    @vday.command(hidden=True)
     @commands.guild_only()
     @commands.is_owner()
-    async def vday_matches(self, ctx):
+    async def matches(self, ctx):
         '''
         gets all the users from the database
         matches all the users together
