@@ -20,7 +20,7 @@ import discord
 from discord.ext import commands
 from random import shuffle
 from pony import orm
-from pony.orm import db_session
+from pony.orm import db_session, Required, PrimaryKey, Database
 
 santa_start = '''
 
@@ -35,18 +35,19 @@ with open("./db_info.txt", "r")as f:
     db_port = f.readline()[:-1]
     db_database = f.readline()[:-1]
 
-db = orm.Database()
+db = Database()
 db.bind(provider='postgres', user=db_user, password=db_password, host="postgres", database=db_database, port=db_port)
 
 class UserSanta2019(db.Entity):
-    user_id = orm.Required(int, size=64)
-    guild_id = orm.Required(int, size=64)
-    guild_name = orm.Required(str)
-    wishes = orm.Optional(str)
+    user_id = Required(int, size=64)
+    guild_id = Required(int, size=64)
+    PrimaryKey(user_id, guild_id)
+    guild_name = Required(str)
+    wishes = Required(str)
 
 class GuildSanta2019(db.Entity):
-    guild_id = orm.Required(int, size=64)
-    status = orm.Required(str)
+    guild_id = PrimaryKey(int, size=64)
+    status = Required(str)
 
 db.generate_mapping(create_tables=True)
 
@@ -59,12 +60,12 @@ def check_guild(guild_id):
     paramters
     ----------
     guild_id: int
-        the id of the guild to check
+        discord guild id
     
     returns
     --------
     status: str
-        can either be active, inactive, or missing
+        can be active, matched, inactive, or missing
     '''
     if GuildSanta2019.exists(guild_id=guild_id):
         return GuildSanta2019.get(guild_id=guild_id).status
@@ -81,11 +82,11 @@ def update_guild(guild_id, status="active"):
     parameters
     -----------
     guild_id: int
-        id of the guild to update
+        discord guild id
     
     status: str
         default active
-        status to update the guild to. Can be active or inactive
+        status to update the guild to. Can be active, matched, or inactive
     '''
     statuses = ['active', 'inactive']
     if status not in statuses:
@@ -98,22 +99,63 @@ def update_guild(guild_id, status="active"):
 
 @db_session
 def check_user(user_id, guild_id):
-    pass
+    """
+    checks if the user exists
+
+    paramters
+    ----------
+    user_id: int
+        discord user id
+    
+    guild_id: int
+        discord guild id
+
+    returns
+    ---------
+    True if user exists, otherwise False
+    """
+    return UserSanta2019.exists(user_id=user_id, guild_id=guild_id)
 
 
 @db_session
-def get_user(user):
-    pass
+def add_user(user_id, guild_id, guild_name, wishes):
+    """
+    adds a user to the database
+
+    paramters
+    ----------
+    user_id: int
+        discord user id
+    
+    guild_id: int
+        discord guild id
+    
+    guild_name: str
+        str representation of the discord guild name
+    
+    wishes: str
+        contains the user input for wishes
+    """
+    UserSanta2019(user_id=user_id, guild_id=guild_id, guild_name=guild_name, wishes=wishes)
 
 
 @db_session
-def add_user(user):
-    pass
+def update_user(user_id, guild_id, wishes):
+    """
+    updates the users wishes, overwritting their previous wishes
 
-
-@db_session
-def update_user(user):
-    pass
+    parameters
+    -----------
+    user_id: int
+        discord user id
+    
+    guild_id: int
+        discord guild id
+    
+    wishes: str
+        the wishes the user submitted
+    """
+    UserSanta2019(user_id, guild_id).wishes = wishes
 
 
 class Santa:
@@ -136,7 +178,7 @@ class Santa:
         '''
         guild = ctx.guild.id
         status = check_guild(guild)
-        if status == "active":
+        if status in ["active", "matched"]:
             await ctx.send("This guild is already a part of the event! No need to start it again!")
         else:
             update_guild(guild)
@@ -152,9 +194,15 @@ class Santa:
         guild_id = ctx.guild.id
         guild_name = ctx.guild.name
 
-        if check_user(user_id, guild_id):
+        guild_status = check_guild(guild_id)
+        if guild_status == "matched":
+            return await ctx.send("This guild has already matched users! It's too late to join, sorry!")
+        elif guild_status in ["inactive", "missing"]:
+            return await ctx.send("The event is currently not running in this guild!")
+        elif check_user(user_id, guild_id):
             return await ctx.send("You've already joined the secret santa!"
                            "If you would like to change your wishes you can use the update subcommand!")
+
         add_user(user_id, guild_id, guild_name, wishes)
         return await ctx.send("You have been enetered into the secret santa!"
                               "Keep an eye on your DMs for who you'll be giving a gift to!"
@@ -168,6 +216,17 @@ class Santa:
         '''
         user_id = ctx.author.id
         guild_id = ctx.guild.id
+        guild_name = ctx.guild.name
+
+        guild_status = check_guild(guild_id)
+        if guild_status == 'matched':
+            return await ctx.send("This guild has already matched people! It's too late to update your wishes, sorry.")
+        elif guild_status in ["inactive", "missing"]:
+            return await ctx.send("This event isn't currently active in this guild!")
+
+        if not check_user(user_id, guild_id):
+            add_user(user_id, guild_id, guild_name, wishes)
+            return await ctx.send("You weren't entered for the event! I entered you and added your wishes.")
 
         update_user(user_id, guild_id, wishes)
         return await ctx.send("Your wishes have been updated!")
@@ -191,6 +250,7 @@ class Santa:
         '''
         closes the event for this server
         send all of the gifts via dm including the guild name
+        call out anyone who signed up but didn't send a gift for someone
         '''
     
     @santa.command(hidden=True)
