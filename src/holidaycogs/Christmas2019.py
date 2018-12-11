@@ -14,6 +14,12 @@ They can submit it via the bot, they only get one submission
 maybe have it so they can submit multiple things.
 on a certain date, send the gifts to the giftee
 mission complete
+
+to add
++ they can request waht their wishes are
++ commands for them to send things
++ something to see what they sent
++ more info command
 '''
 
 import discord
@@ -267,7 +273,6 @@ class Santa:
         #send each santa their match and some information
 
         #send a message in the guild that matches have been sent.
-        #maybe @ all those involved but probably not needed since they'll get a dm
     
     @santa.command(hidden=True)
     @commands.guild_only()
