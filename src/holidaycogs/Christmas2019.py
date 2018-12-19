@@ -25,8 +25,9 @@ to add
 import discord
 from discord.ext import commands
 from random import shuffle
-from pony import orm
-from pony.orm import db_session, Required, PrimaryKey, Database
+from collections import deque
+from pony import o
+from pony.orm import db_session, Required, PrimaryKey, Database, Optional, select
 
 santa_start = '''
 
@@ -50,6 +51,7 @@ class UserSanta2019(db.Entity):
     PrimaryKey(user_id, guild_id)
     guild_name = Required(str)
     wishes = Required(str)
+    giftee_id = Optional(int, size=64)
 
 class GuildSanta2019(db.Entity):
     guild_id = PrimaryKey(int, size=64)
@@ -146,7 +148,7 @@ def add_user(user_id, guild_id, guild_name, wishes):
 
 
 @db_session
-def update_user(user_id, guild_id, wishes):
+def update_user(user_id, guild_id, wishes=None, giftee_id=None):
     """
     updates the users wishes, overwritting their previous wishes
 
@@ -161,16 +163,58 @@ def update_user(user_id, guild_id, wishes):
     wishes: str
         the wishes the user submitted
     """
-    UserSanta2019(user_id, guild_id).wishes = wishes
+    if giftee_id == None:
+        UserSanta2019(user_id, guild_id).wishes = wishes
+    elif wishes == None:
+        UserSanta2019(user_id, guild_id).giftee_id = giftee_id
 
-
+@db_session
 def get_users(guild_id):
-    pass
+    '''
+    takes in a guild id and return the user ids for that guild
+
+    parameters
+    ----------
+    guild_id: int
+        discord guild id
+    
+    returns
+    ---------
+    user_list: list
+        list of discord user ids
+    '''
+    query = select(u.user_id for u in UserSanta2019 if u.guild_id == guild_id)
+    return list(query)
 
 
+def make_matches(guild_id):
+    '''
+    creates the matches for all users in the database
+    
+    parameters
+    ------------
+    guild_id: int
+        discord guild id
+    '''
+    users = get_users(guild_id)
+    shuffle(users)
+    users = deque(users)
+    first = users[0]
+    for _ in len(users):
+        if len(users) == 1:
+            update_user(first, guild_id, giftee_id=users[0])
+        else:
+            user_id = users.popleft()
+            giftee_id = users[0]
+            update_user(user_id, guild_id, giftee_id=giftee_id)
+
+@db_session
 def get_matches(guild_id):
-    pass
-
+    '''
+    gets the amtches for all users and returns them as a list of lists
+    '''
+    query = select([u.user_id, u.giftee_id] for u in UserSanta2019 if u.guild_id == guild_id)
+    return list(query)
 
 class Santa:
     def __init__(self, bot):
@@ -263,16 +307,17 @@ class Santa:
         if guild_status in ["inactive", "missing"]:
             return await ctx.send("The event is not active on this server")
         elif guild_status == "matched":
-            return await ctx.send("This server has already gottne their matches")
+            return await ctx.send("This server has already gotten their matches")
 
-        #get matches probably a dict where keys are the santa and values are their giftee
-        #maybe just a list and move down the list?
+        make_matches(guild_id)
         matches = get_matches(guild_id)
-        #add them to the database
+        for match in matches:
+            print("help")
+            #send users their matches using the ids match[0] = user_id, match[1] = giftee_id
+            
 
-        #send each santa their match and some information
-
-        #send a message in the guild that matches have been sent.
+        return await ctx.send("All matches have been made and sent!"
+                              "if you signed up and did not recieve a match, please notify trevor and he'll look into it")
     
     @santa.command(hidden=True)
     @commands.guild_only()
