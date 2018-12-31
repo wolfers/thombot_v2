@@ -211,7 +211,7 @@ class Music:
         """
         if not channel:
             try:
-                channel = ctx.author.voice_channel
+                channel = ctx.author.voice.channel
             except AttributeError:
                 raise InvalidVoiceChannel('No channel to join. Please either specify a valid channel or join one.')
             
