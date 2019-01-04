@@ -78,5 +78,10 @@ class otherCommands:
         gooedit_file = discord.File(cwd + "/pictures/gootext.png")
         await ctx.send(file=gooedit_file)
 
+    @commands.command()
+    @commands.is_owner()
+    async def change_presence(self, ctx, *, presence):
+        await self.bot.change_presence(activity=discord.Game(name=presence))
+
 def setup(bot):
     bot.add_cog(otherCommands(bot))
