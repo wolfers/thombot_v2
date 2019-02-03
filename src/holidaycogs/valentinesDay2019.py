@@ -14,7 +14,7 @@ from pony.orm import db_session
 
 
 vday_start = ''' 
-    Hello @everyone! Welcome to the 2019 Thom Stargazer valentines day event! Type "!vday_join" to have your name entered
+    Hello @everyone! Welcome to the 2019 Thom Stargazer valentines day event! Type "!vday join" to have your name entered
     entered into the pool of eligable valentines. The day before valentines day, your match will be posted.
     From there, it's up to you. ;) If you have any questions dm <@88838960175910912>
 '''
@@ -149,6 +149,14 @@ class valentinesDay2019:
         else:
             update_guild(guild)
             await ctx.send(vday_start)
+    
+    @vday.command()
+    @commands.guild_only()
+    async def info(self, ctx):
+        '''
+        Sends the extended vday info to the channel
+        '''
+        await ctx.send(vday_info)
 
     @vday.command()
     @commands.guild_only()
