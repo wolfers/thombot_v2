@@ -16,7 +16,7 @@ on a certain date, send the gifts to the giftee
 mission complete
 
 to add
-+ they can request waht their wishes are
++ they can request what their wishes are
 + commands for them to send things
 + something to see what they sent
 + more info command
@@ -61,7 +61,7 @@ db.generate_mapping(create_tables=True)
 
 
 @db_session
-def check_guild(guild_id):
+def get_guild_status(guild_id):
     '''
     returns the status of the guild
 
@@ -123,6 +123,11 @@ def check_user(user_id, guild_id):
     True if user exists, otherwise False
     """
     return UserSanta2019.exists(user_id=user_id, guild_id=guild_id)
+
+
+@db_session
+def get_user_submission(user_id, guild_id):
+    
 
 
 @db_session
@@ -211,10 +216,22 @@ def make_matches(guild_id):
 @db_session
 def get_matches(guild_id):
     '''
-    gets the amtches for all users and returns them as a list of lists
+    gets the matches for all users and returns them as a list of lists
     '''
     query = select([u.user_id, u.giftee_id] for u in UserSanta2019 if u.guild_id == guild_id)
     return list(query)
+
+
+def check_guild(ctx):
+    guild_id = ctx.guild.id
+    guild_status = get_guild_status(guild_id)
+
+    if guild_status in ["inactive", "missing"]:
+        return "The event is not active on this server"
+    elif guild_status == "matched":
+        return "This server has already gotten their matches"
+    else:
+        return "active"
 
 class Santa:
     def __init__(self, bot):
@@ -224,7 +241,7 @@ class Santa:
     @commands.guild_only()
     async def santa(self, ctx):
         if ctx.invoked_subcommand is None:
-            await ctx.send("invalid santa command! Use !help Santa to see the commands you can use")
+            await ctx.send("invalid santa command! Use '!help santa' to see the commands you can use")
     
     @santa.command(hidden=True)
     @commands.guild_only()
@@ -235,7 +252,7 @@ class Santa:
         sends the starting message to the guild channel
         '''
         guild = ctx.guild.id
-        status = check_guild(guild)
+        status = get_guild_status(guild)
         if status in ["active", "matched"]:
             await ctx.send("This guild is already a part of the event! No need to start it again!")
         else:
@@ -252,7 +269,7 @@ class Santa:
         guild_id = ctx.guild.id
         guild_name = ctx.guild.name
 
-        guild_status = check_guild(guild_id)
+        guild_status = get_guild_status(guild_id)
         if guild_status == "matched":
             return await ctx.send("This guild has already matched users! It's too late to join, sorry!")
         elif guild_status in ["inactive", "missing"]:
@@ -276,7 +293,7 @@ class Santa:
         guild_id = ctx.guild.id
         guild_name = ctx.guild.name
 
-        guild_status = check_guild(guild_id)
+        guild_status = get_guild_status(guild_id)
         if guild_status == 'matched':
             return await ctx.send("This guild has already matched people! It's too late to update your wishes, sorry.")
         elif guild_status in ["inactive", "missing"]:
@@ -312,13 +329,74 @@ class Santa:
         make_matches(guild_id)
         matches = get_matches(guild_id)
         for match in matches:
-            print("help")
-            #send users their matches using the ids match[0] = user_id, match[1] = giftee_id
+            #match[0] is the secret santa, match[1] is the one who will recieve a gift
+            await ctx.send_message(match[0], message="You will be giving a gift to: " + match[1])
             
 
         return await ctx.send("All matches have been made and sent!"
                               "if you signed up and did not recieve a match, please notify trevor and he'll look into it")
+
+    @santa.command()
+    async def submit(self, ctx):
+        '''
+        lets the user DM the bot in order to submit their gift
+        takes in either a link or an object and saves it in the database.(may jsut restrict it to a link, not sure of the difficulty of saving the object, probably not bad)
+        only allows them to submit one, to update is a seperate command.
+        will tell them they've already submitted and to use update if that want to change it
+        '''
+        guild_check = check_guild(ctx)
+        if guild_check != "active":
+            return await ctx.send(guild_check)
+        if ctx.message.server != None:
+            return ctx.send("This command only works in DMs, please DM to use it!")
+        #check if the user has already submitted
+
+        #if they have, tell them to use update
+        #update the database to refelt their submission
+        #send them done message with soem info
     
+    @santa.command()
+    async def update(self, ctx):
+        '''
+        updates the submitted gift for that user
+        '''
+        #check if the guild is active
+        #check if dm, tell them dm only if not
+        #check if the user has submitted
+        #if they have not, tell them to use submit
+        #update their submission in the database
+    
+    @santa.command()
+    async def submission(self, ctx):
+        '''
+        shows the user waht they have already submitted
+        '''
+        #check if guild is active
+        #check if dm, tell them dm only if not
+        #check if user has submitted
+        #if they have not, tell them to submit
+        #if they have, show them their submission
+
+    @santa.command()
+    @commands.guild_only()
+    async def check_wish(self, ctx):
+        '''
+        shows the user what their wish is
+        '''
+        #check if guild is active
+        #check if user has wished
+        #if not, tell them
+        #send their wish as a message to the server
+    
+    @santa.command()
+    async def more_info(self, ctx):
+        '''
+        sends more info the the channel or to a dm
+        '''
+        #check if guild is active
+        #check if channel or dm
+        #send message to channel or to dm
+
     @santa.command(hidden=True)
     @commands.guild_only()
     @commands.is_owner()
