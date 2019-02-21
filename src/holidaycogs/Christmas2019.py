@@ -14,12 +14,6 @@ They can submit it via the bot, they only get one submission
 maybe have it so they can submit multiple things.
 on a certain date, send the gifts to the giftee
 mission complete
-
-to add
-+ they can request what their wishes are
-+ commands for them to send things
-+ something to see what they sent
-+ more info command
 '''
 
 import discord
@@ -52,6 +46,7 @@ class UserSanta2019(db.Entity):
     guild_name = Required(str)
     wishes = Required(str)
     giftee_id = Optional(int, size=64)
+    submission_url = Optional(str)
 
 class GuildSanta2019(db.Entity):
     guild_id = PrimaryKey(int, size=64)
@@ -127,7 +122,8 @@ def check_user(user_id, guild_id):
 
 @db_session
 def get_user_submission(user_id, guild_id):
-    
+    if UserSanta2019.exists(user_id=user_id, guild_id=guild_id):
+        return UserSanta2019.get(user_id=user_id, guild_id=guild_id).submission_url
 
 
 @db_session
@@ -172,6 +168,10 @@ def update_user(user_id, guild_id, wishes=None, giftee_id=None):
         UserSanta2019(user_id, guild_id).wishes = wishes
     elif wishes == None:
         UserSanta2019(user_id, guild_id).giftee_id = giftee_id
+
+@db_session
+def update_gift(user_id, guild_id, link):
+    UserSanta2019(user_id=user_id, guild_id=guild_id).submission_url = link
 
 @db_session
 def get_users(guild_id):
@@ -337,45 +337,34 @@ class Santa:
                               "if you signed up and did not recieve a match, please notify trevor and he'll look into it")
 
     @santa.command()
-    async def submit(self, ctx):
+    async def submit(self, ctx, *, link):
         '''
         lets the user DM the bot in order to submit their gift
-        takes in either a link or an object and saves it in the database.(may jsut restrict it to a link, not sure of the difficulty of saving the object, probably not bad)
-        only allows them to submit one, to update is a seperate command.
-        will tell them they've already submitted and to use update if that want to change it
+        takes in a link and saves it in the database.
+        will overwrite previous gift if used again
         '''
         guild_check = check_guild(ctx)
         if guild_check != "active":
             return await ctx.send(guild_check)
         if ctx.message.server != None:
-            return ctx.send("This command only works in DMs, please DM to use it!")
-        #check if the user has already submitted
-
-        #if they have, tell them to use update
-        #update the database to refelt their submission
-        #send them done message with soem info
-    
-    @santa.command()
-    async def update(self, ctx):
-        '''
-        updates the submitted gift for that user
-        '''
-        #check if the guild is active
-        #check if dm, tell them dm only if not
-        #check if the user has submitted
-        #if they have not, tell them to use submit
-        #update their submission in the database
+            return await ctx.send("This command only works in DMs, please DM to use it!")
+        update_gift(ctx.author.id, ctx.guild.id, link)
+        return await ctx.send("Your submission has been saved! If you want to view what you've submitted you can use '!santa submission'. If you want to change or update your gift, use this command again to rewrite.")
     
     @santa.command()
     async def submission(self, ctx):
         '''
-        shows the user waht they have already submitted
+        shows the user what they have already submitted
         '''
-        #check if guild is active
-        #check if dm, tell them dm only if not
-        #check if user has submitted
-        #if they have not, tell them to submit
-        #if they have, show them their submission
+        guild_check = check_guild(ctx)
+        if guild_check != "active":
+            return await ctx.send(guild_check)
+        if ctx.message.server != None:
+            return await ctx.send("This command only works in DMs, please DM to use it!")
+        submission = get_user_submission(ctx.author.id, ctx.guild.id)
+        if submission == None:
+            return await ctx.send("It appears that you haven't submitted anything yet, please use the submit command to submit a gift")
+        return await ctx.send("The gift you ahve submitted: " + submission)
 
     @santa.command()
     @commands.guild_only()
