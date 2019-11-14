@@ -7,13 +7,7 @@ import sys, traceback
 
 import logging
 import logging.handlers
-'''
-logger = logging.getLogger('discord')
-logger.setLevel(logging.INFO)
-handler = logging.handlers.SysLogHandler(address='localhost')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
-'''
+
 cwd = os.getcwd()
 
 with open(cwd + '/token.txt', 'r') as f:
@@ -28,10 +22,10 @@ description = """
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or('!'), description=description)
 
-initial_extentions = ['holidaycogs.valentinesDay2019',
-                      'cogs.otherCommands',
+initial_extentions = ['cogs.otherCommands',
                       'cogs.imageCommands',
-                      'cogs.Music']
+                      'cogs.Music',
+                      'cogs.moderation']
 
 for extention in initial_extentions:
     try:
@@ -47,6 +41,6 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('-----')
-    await bot.change_presence(activity=discord.Game(name='neverwinter'))
+    await bot.change_presence(activity=discord.Game(name='fordnight'))
 
 bot.run(token[:-1])
